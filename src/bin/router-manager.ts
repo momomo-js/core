@@ -2,7 +2,7 @@ import {MoApplication} from "../define/mo-application.class";
 import {RouterInterface} from "../define/router.class";
 import {ControllerInterface} from "../define/controller.interface";
 
-class RouterManager extends MoApplication {
+export class RouterManager extends MoApplication {
     private routerList: RouterInterface[];
     private _controllerList:ControllerInterface[];
 

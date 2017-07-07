@@ -4,12 +4,14 @@ import {ServerManager} from "./server-manager";
 import {State} from "../define/state.enum";
 import {MoBasicServer} from "../define/mo-server.class";
 import "reflect-metadata";
+import {RouterManager} from "./router-manager";
 /**
  * 创建MoCreate实例
  */
 export class MoServer extends MoApplication {
 
     serverManager: ServerManager;
+    routerManager: RouterManager;
 
     instanceName: string;
 
@@ -26,6 +28,7 @@ export class MoServer extends MoApplication {
         this.debug = debug(instance + ':MoBasicServer');
         this.context = null;
         this.serverManager = this.loadMoApplication(new ServerManager());
+        this.routerManager = this.loadMoApplication(new RouterManager());
         this.serverManager.port = port;
         this.instanceName = instance;
     }
