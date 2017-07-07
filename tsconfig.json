@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "es2015",
+    "target": "es2016",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "stripInternal": true,
+    "declaration": true,
+    "lib": ["es2015", "dom"]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
