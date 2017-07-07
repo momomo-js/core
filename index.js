@@ -4,6 +4,7 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./src/bin/moserver"));
+__export(require("./src/bin/router-manager"));
 __export(require("./src/bin/server-manager"));
 __export(require("./src/decorator/controller"));
 __export(require("./src/decorator/mo-plugin"));

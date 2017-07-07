@@ -36,4 +36,5 @@ class RouterManager extends mo_application_class_1.MoApplication {
         return this._controllerList;
     }
 }
+exports.RouterManager = RouterManager;
 //# sourceMappingURL=router-manager.js.map

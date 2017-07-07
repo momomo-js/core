@@ -4,6 +4,7 @@ const debug = require("debug");
 const mo_application_class_1 = require("../define/mo-application.class");
 const server_manager_1 = require("./server-manager");
 require("reflect-metadata");
+const router_manager_1 = require("./router-manager");
 class MoServer extends mo_application_class_1.MoApplication {
     constructor(instance = 'instance', port = 3000) {
         super();
@@ -12,6 +13,7 @@ class MoServer extends mo_application_class_1.MoApplication {
         this.debug = debug(instance + ':MoBasicServer');
         this.context = null;
         this.serverManager = this.loadMoApplication(new server_manager_1.ServerManager());
+        this.routerManager = this.loadMoApplication(new router_manager_1.RouterManager());
         this.serverManager.port = port;
         this.instanceName = instance;
     }
