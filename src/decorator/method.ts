@@ -4,7 +4,10 @@ export function  Method(method:symbol,path?:string){
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         let ControllerMethod = Reflect.getMetadata(CONTROLLER,target);
         if(!ControllerMethod)
+        {
             ControllerMethod = [];
+            Reflect.defineMetadata(CONTROLLER,ControllerMethod,target);
+        }
         ControllerMethod.push(target[propertyKey]);
 
         Reflect.defineMetadata(METHOD,method,target,propertyKey);
