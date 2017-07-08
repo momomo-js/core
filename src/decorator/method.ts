@@ -14,8 +14,9 @@ export function  Method(method:symbol,path?:string){
         let q:Array<any> = Reflect.getMetadata("design:paramtypes",target,propertyKey);
         let s:String[] = q.map(o=>o.name);
         Reflect.defineMetadata(PARAMS,s,target,propertyKey);
-        if(path)
-            Reflect.defineMetadata(PATH,path,target,propertyKey);
+        if(!path)
+            path = '/' + propertyKey;
+        Reflect.defineMetadata(PATH,path,target,propertyKey);
     };
 }
 

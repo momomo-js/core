@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class Mo {
     get debug() {
         if (this._debug) {
-            this._debug.namespace = this.instance + ": MoBasicServer";
+            this._debug.namespace = this.instance + ": MoServer";
             return this._debug;
         }
     }

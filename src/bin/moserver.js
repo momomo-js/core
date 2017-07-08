@@ -10,7 +10,8 @@ class MoServer extends mo_application_class_1.MoApplication {
         super();
         this.serverList = [];
         this.moServer = this;
-        this.debug = debug(instance + ':MoBasicServer');
+        this.instance = instance;
+        this.debug = debug(instance + ':MoServer');
         this.context = null;
         this.serverManager = this.loadMoApplication(new server_manager_1.ServerManager());
         this.routerManager = this.loadMoApplication(new router_manager_1.RouterManager());

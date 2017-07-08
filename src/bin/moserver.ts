@@ -25,7 +25,8 @@ export class MoServer extends MoApplication {
     constructor(instance: string = 'instance', port: number = 3000) {
         super();
         this.moServer = this;
-        this.debug = debug(instance + ':MoBasicServer');
+        this.instance = instance;
+        this.debug = debug(instance + ':MoServer');
         this.context = null;
         this.serverManager = this.loadMoApplication(new ServerManager());
         this.routerManager = this.loadMoApplication(new RouterManager());

@@ -12,7 +12,7 @@ export abstract class Mo {
     {
         if(this._debug)
         {
-            this._debug.namespace = this.instance + ": MoBasicServer";
+            this._debug.namespace = this.instance + ": MoServer";
             return this._debug;
         }
     }
