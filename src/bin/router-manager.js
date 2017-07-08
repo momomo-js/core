@@ -5,6 +5,7 @@ class RouterManager extends mo_application_class_1.MoApplication {
     constructor() {
         super();
         this.routerList = [];
+        this._controllerList = [];
     }
     addRouter(router) {
         let rIns = new router();

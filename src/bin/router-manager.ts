@@ -9,7 +9,7 @@ export class RouterManager extends MoApplication {
     constructor() {
         super();
         this.routerList = [];
-
+        this._controllerList = [];
     }
 
     addRouter(router:any)
