@@ -1,4 +1,4 @@
 export interface ControllerOptions {
-    models?: typeof Object[];
+    models?: Array<any>;
     path?: string;
 }
