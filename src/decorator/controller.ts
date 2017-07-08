@@ -8,7 +8,7 @@ export function Controller(options?: ControllerOptions) {
 
         function construct(constructor, args) {
             let c: any = function () {
-                let cIns = constructor.apply(this, args) as ControllerInterface;
+                let cIns = new constructor(...args) as ControllerInterface;
                 cIns.modelList = new Map<String,Object>();
                 let path = null;
                 if (options) {

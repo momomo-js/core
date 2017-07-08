@@ -7,7 +7,7 @@ export function Router(options?: RouterOptions) {
 
         function construct(constructor, args) {
             let c: any = function () {
-                let cIns = constructor.apply(this, args) as RouterInterface;
+                let cIns = new constructor(...args) as RouterInterface;
                 cIns.controllers = [];
                 if (options) {
                     if (options.controllers) {

@@ -6,7 +6,7 @@ function Controller(options) {
         let original = target;
         function construct(constructor, args) {
             let c = function () {
-                let cIns = constructor.apply(this, args);
+                let cIns = new constructor(...args);
                 cIns.modelList = new Map();
                 let path = null;
                 if (options) {

@@ -5,7 +5,7 @@ function Router(options) {
         let original = target;
         function construct(constructor, args) {
             let c = function () {
-                let cIns = constructor.apply(this, args);
+                let cIns = new constructor(...args);
                 cIns.controllers = [];
                 if (options) {
                     if (options.controllers) {
