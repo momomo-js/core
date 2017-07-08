@@ -1,7 +1,12 @@
 
-import {METHOD, PARAMS, PATH} from "./symbol";
+import {METHOD, PARAMS, PATH,CONTROLLER} from "./symbol";
 export function  Method(method:symbol,path?:string){
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        let ControllerMethod = Reflect.getMetadata(CONTROLLER,target);
+        if(!ControllerMethod)
+            ControllerMethod = [];
+        ControllerMethod.push(target[propertyKey]);
+
         Reflect.defineMetadata(METHOD,method,target,propertyKey);
         let q:Array<any> = Reflect.getMetadata("design:paramtypes",target,propertyKey);
         let s:String[] = q.map(o=>o.name);

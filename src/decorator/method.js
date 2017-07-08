@@ -3,6 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const symbol_1 = require("./symbol");
 function Method(method, path) {
     return function (target, propertyKey, descriptor) {
+        let ControllerMethod = Reflect.getMetadata(symbol_1.CONTROLLER, target);
+        if (!ControllerMethod)
+            ControllerMethod = [];
+        ControllerMethod.push(target[propertyKey]);
         Reflect.defineMetadata(symbol_1.METHOD, method, target, propertyKey);
         let q = Reflect.getMetadata("design:paramtypes", target, propertyKey);
         let s = q.map(o => o.name);
