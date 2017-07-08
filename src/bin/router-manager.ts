@@ -24,7 +24,7 @@ export class RouterManager extends MoApplication {
         }
 
         this.routerList.push(rIns as RouterInterface);
-        this._controllerList.push(...rIns.controllers);
+        this._controllerList = this._controllerList.concat(rIns.controllers);
     }
 
     delRouter(router:any)

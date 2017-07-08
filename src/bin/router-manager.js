@@ -15,7 +15,7 @@ class RouterManager extends mo_application_class_1.MoApplication {
             }
         }
         this.routerList.push(rIns);
-        this._controllerList.push(...rIns.controllers);
+        this._controllerList = this._controllerList.concat(rIns.controllers);
     }
     delRouter(router) {
         for (let i = 0; i < this.routerList.length; i++) {

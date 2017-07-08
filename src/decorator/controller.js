@@ -8,31 +8,32 @@ function Controller(options) {
             let c = function () {
                 let cIns = new constructor(...args);
                 cIns.modelList = new Map();
-                let path = null;
-                if (options) {
-                    if (!options.path) {
-                        let cInsName = cIns.constructor.name;
-                        path = '/' + cInsName.replace("Controller", "").toLowerCase();
-                    }
-                    else {
-                        path = options.path;
-                    }
-                    if (options.models) {
-                        for (let model of options.models) {
-                            cIns.modelList.set(model.name, new model());
-                        }
-                        Reflect.defineMetadata(symbol_1.MODELLIST, options.models, target);
-                    }
-                }
-                else {
-                    let cInsName = cIns.constructor.name;
-                    path = cInsName.replace("Controller", "").toLowerCase();
-                }
-                Reflect.defineMetadata(symbol_1.PATH, path, target);
                 return cIns;
             };
             c.prototype = constructor.prototype;
-            return new c();
+            let cIns = new c();
+            let path = null;
+            if (options) {
+                if (!options.path) {
+                    let cInsName = cIns.constructor.name;
+                    path = '/' + cInsName.replace("Controller", "").toLowerCase();
+                }
+                else {
+                    path = options.path;
+                }
+                if (options.models) {
+                    for (let model of options.models) {
+                        cIns.modelList.set(model.name, new model());
+                    }
+                    Reflect.defineMetadata(symbol_1.MODELLIST, options.models, cIns);
+                }
+            }
+            else {
+                let cInsName = cIns.constructor.name;
+                path = cInsName.replace("Controller", "").toLowerCase();
+            }
+            Reflect.defineMetadata(symbol_1.PATH, path, cIns);
+            return cIns;
         }
         let f = function (...args) {
             return construct(original, args);

@@ -10,36 +10,39 @@ export function Controller(options?: ControllerOptions) {
             let c: any = function () {
                 let cIns = new constructor(...args) as ControllerInterface;
                 cIns.modelList = new Map<String,Object>();
-                let path = null;
-                if (options) {
-                    if (!options.path) {
-                        let cInsName = cIns.constructor.name;
-                        path = '/' + cInsName.replace("Controller", "").toLowerCase();
-                    }
-                    else {
-                        path = options.path;
-                    }
-
-                    if(options.models)
-                    {
-                        for(let model of options.models){
-
-                            cIns.modelList.set(model.name,new model());
-                        }
-
-                        Reflect.defineMetadata(MODELLIST,options.models,target);
-                    }
-                } else {
-                    let cInsName = cIns.constructor.name;
-                    path = cInsName.replace("Controller", "").toLowerCase();
-                }
-
-                Reflect.defineMetadata(PATH, path, target);
                 return cIns;
             };
 
             c.prototype = constructor.prototype;
-            return new c();
+
+            let cIns = new c();
+            let path = null;
+
+            if (options) {
+                if (!options.path) {
+                    let cInsName = cIns.constructor.name;
+                    path = '/' + cInsName.replace("Controller", "").toLowerCase();
+                }
+                else {
+                    path = options.path;
+                }
+
+                if(options.models)
+                {
+                    for(let model of options.models){
+
+                        cIns.modelList.set(model.name,new model());
+                    }
+
+                    Reflect.defineMetadata(MODELLIST,options.models,cIns);
+                }
+            } else {
+                let cInsName = cIns.constructor.name;
+                path = cInsName.replace("Controller", "").toLowerCase();
+            }
+
+            Reflect.defineMetadata(PATH,path,cIns);
+            return cIns;
 
         }
 
