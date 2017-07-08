@@ -9,9 +9,9 @@ function Router(options) {
                 cIns.controllers = [];
                 if (options) {
                     if (options.controllers) {
-                        for (let c of options.controllers) {
-                            let controller = new c;
-                            cIns.controllers.push(controller);
+                        for (let controller of options.controllers) {
+                            let controllerIns = new controller;
+                            cIns.controllers.push(controllerIns);
                         }
                     }
                 }

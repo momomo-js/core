@@ -24,7 +24,7 @@ export function Controller(options?: ControllerOptions) {
                     {
                         for(let model of options.models){
 
-                            cIns.modelList.set(model.constructor.name,new model());
+                            cIns.modelList.set(model.name,new model());
                         }
 
                         Reflect.defineMetadata(MODELLIST,options.models,target);

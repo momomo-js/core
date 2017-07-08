@@ -19,7 +19,7 @@ function Controller(options) {
                     }
                     if (options.models) {
                         for (let model of options.models) {
-                            cIns.modelList.set(model.constructor.name, new model());
+                            cIns.modelList.set(model.name, new model());
                         }
                         Reflect.defineMetadata(symbol_1.MODELLIST, options.models, target);
                     }

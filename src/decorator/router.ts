@@ -11,9 +11,9 @@ export function Router(options?: RouterOptions) {
                 cIns.controllers = [];
                 if (options) {
                     if (options.controllers) {
-                        for (let c of options.controllers) {
-                            let controller = new c as ControllerInterface;
-                            cIns.controllers.push(controller);
+                        for (let controller of options.controllers) {
+                            let controllerIns = new controller as ControllerInterface;
+                            cIns.controllers.push(controllerIns);
                         }
                     }
                 }
