@@ -13,7 +13,7 @@ export * from './src/define/mo-server.class';
 export * from './src/define/router.class';
 export * from './src/define/router-options.interface';
 export * from './src/define/state.enum';
-
+export * from './src/decorator/symbol';
 
 /**
  * Created by yskun on 2017/7/3.

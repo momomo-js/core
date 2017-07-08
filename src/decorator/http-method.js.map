@@ -1,0 +1,1 @@
+{"version":3,"file":"http-method.js","sourceRoot":"","sources":["http-method.ts"],"names":[],"mappings":";;AACA,qCAAgC;AAChC,gBAAwB,MAAa;IACjC,MAAM,CAAC,UAAU,MAAW,EAAE,WAAmB,EAAE,UAA8B;QAC7E,OAAO,CAAC,cAAc,CAAC,eAAM,EAAC,MAAM,EAAC,MAAM,EAAC,WAAW,CAAC,CAAC;IAC7D,CAAC,CAAC;AACN,CAAC;AAJD,wBAIC"}

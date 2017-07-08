@@ -1,5 +1,6 @@
 import {ControllerInterface} from "../define/controller.interface";
 import {ControllerOptions} from "../define/controller-options.interface";
+import {MODELLIST, PATH} from "./symbol";
 
 export function Controller(options?: ControllerOptions) {
     return (target) => {
@@ -13,7 +14,7 @@ export function Controller(options?: ControllerOptions) {
                 if (options) {
                     if (!options.path) {
                         let cInsName = cIns.constructor.name;
-                        path = cInsName.replace("Controller", "").toLowerCase();
+                        path = '/' + cInsName.replace("Controller", "").toLowerCase();
                     }
                     else {
                         path = options.path;
@@ -26,14 +27,14 @@ export function Controller(options?: ControllerOptions) {
                             cIns.modelList.set(model.constructor.name,new model());
                         }
 
-                        Reflect.defineMetadata("modelList",options.models,target);
+                        Reflect.defineMetadata(MODELLIST,options.models,target);
                     }
                 } else {
                     let cInsName = cIns.constructor.name;
                     path = cInsName.replace("Controller", "").toLowerCase();
                 }
 
-                Reflect.defineMetadata("path", path, target);
+                Reflect.defineMetadata(PATH, path, target);
                 return cIns;
             };
 

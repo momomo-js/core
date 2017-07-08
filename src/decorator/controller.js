@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const symbol_1 = require("./symbol");
 function Controller(options) {
     return (target) => {
         let original = target;
@@ -11,7 +12,7 @@ function Controller(options) {
                 if (options) {
                     if (!options.path) {
                         let cInsName = cIns.constructor.name;
-                        path = cInsName.replace("Controller", "").toLowerCase();
+                        path = '/' + cInsName.replace("Controller", "").toLowerCase();
                     }
                     else {
                         path = options.path;
@@ -20,14 +21,14 @@ function Controller(options) {
                         for (let model of options.models) {
                             cIns.modelList.set(model.constructor.name, new model());
                         }
-                        Reflect.defineMetadata("modelList", options.models, target);
+                        Reflect.defineMetadata(symbol_1.MODELLIST, options.models, target);
                     }
                 }
                 else {
                     let cInsName = cIns.constructor.name;
                     path = cInsName.replace("Controller", "").toLowerCase();
                 }
-                Reflect.defineMetadata("path", path, target);
+                Reflect.defineMetadata(symbol_1.PATH, path, target);
                 return cIns;
             };
             c.prototype = constructor.prototype;

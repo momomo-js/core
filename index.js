@@ -13,4 +13,5 @@ __export(require("./src/define/mo.class"));
 __export(require("./src/define/mo-application.class"));
 __export(require("./src/define/mo-server.class"));
 __export(require("./src/define/state.enum"));
+__export(require("./src/decorator/symbol"));
 //# sourceMappingURL=index.js.map
