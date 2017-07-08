@@ -12,7 +12,7 @@ export class RouterManager extends MoApplication {
 
     }
 
-    addRouter(router:typeof Object)
+    addRouter(router:any)
     {
         let rIns = new router() as RouterInterface;
         for(let r of this.routerList)
@@ -27,7 +27,7 @@ export class RouterManager extends MoApplication {
         this._controllerList.push(...rIns.controllers);
     }
 
-    delRouter(router:typeof Object)
+    delRouter(router:any)
     {
 
         for(let i = 0; i< this.routerList.length; i++)

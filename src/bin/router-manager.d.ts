@@ -4,8 +4,8 @@ export declare class RouterManager extends MoApplication {
     private routerList;
     private _controllerList;
     constructor();
-    addRouter(router: typeof Object): void;
-    delRouter(router: typeof Object): void;
+    addRouter(router: any): void;
+    delRouter(router: any): void;
     refreshControllerList(): void;
     readonly controllerList: ControllerInterface[];
 }

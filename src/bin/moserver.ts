@@ -5,7 +5,6 @@ import {State} from "../define/state.enum";
 import {MoBasicServer} from "../define/mo-server.class";
 import "reflect-metadata";
 import {RouterManager} from "./router-manager";
-import {isUndefined} from "util";
 /**
  * 创建MoCreate实例
  */
@@ -56,7 +55,7 @@ export class MoServer extends MoApplication {
         this.serverManager.start();
     }
 
-    addServer<T extends MoBasicServer>(server:T): void {
+    addServer<T extends MoBasicServer>(server: T): void {
         let sIns = this.loadMoApplication(server);
         if (server)
             this.serverList.push(sIns);
