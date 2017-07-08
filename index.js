@@ -9,9 +9,10 @@ __export(require("./src/bin/server-manager"));
 __export(require("./src/decorator/controller"));
 __export(require("./src/decorator/mo-plugin"));
 __export(require("./src/decorator/router"));
+__export(require("./src/decorator/symbol"));
+__export(require("./src/decorator/method"));
 __export(require("./src/define/mo.class"));
 __export(require("./src/define/mo-application.class"));
 __export(require("./src/define/mo-server.class"));
 __export(require("./src/define/state.enum"));
-__export(require("./src/decorator/symbol"));
 //# sourceMappingURL=index.js.map

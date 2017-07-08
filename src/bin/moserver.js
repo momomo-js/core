@@ -34,8 +34,9 @@ class MoServer extends mo_application_class_1.MoApplication {
         this.serverManager.start();
     }
     addServer(server) {
+        let sIns = this.loadMoApplication(server);
         if (server)
-            this.serverList.push(server);
+            this.serverList.push(sIns);
     }
 }
 exports.MoServer = MoServer;
