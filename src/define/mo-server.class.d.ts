@@ -5,5 +5,5 @@ export declare abstract class MoBasicServer extends MoApplication {
     pause(): void;
     stop(): void;
     restart(): void;
-    protected static getPlugin(pack: Object, type: symbol): object[];
+    protected static getPlugin(pack: Object, type: symbol): any[];
 }
