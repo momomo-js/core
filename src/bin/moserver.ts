@@ -1,9 +1,9 @@
+import "reflect-metadata";
 import * as debug from "debug";
 import {MoApplication} from "../define/mo-application.class";
 import {ServerManager} from "./server-manager";
 import {State} from "../define/state.enum";
 import {MoBasicServer} from "../define/mo-server.class";
-import "reflect-metadata";
 import {RouterManager} from "./router-manager";
 /**
  * 创建MoCreate实例

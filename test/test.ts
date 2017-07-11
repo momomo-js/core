@@ -4,9 +4,21 @@ import {Controller} from "../src/decorator/controller";
 import {RouterInterface} from "../src/define/router.class";
 import {METHOD, PATH} from "../src/decorator/symbol";
 import {Method} from "../src/decorator/method";
+import {Plugin} from "../src/decorator/plugin";
+import {MoServer} from "../src/bin/moserver";
+import {MoBasicServer} from "../src/define/mo-server.class";
+
+
 class IndexModel {
-    test: string;
+    test: string = '';
+    @Plugin(Symbol("y"))
     haha: string;
+
+    @Plugin(Symbol("y"))
+    fun()
+    {
+
+    }
 }
 
 @Controller({
@@ -34,10 +46,37 @@ class IndexController {
 class IndexRouter {
 }
 
-let q =new IndexRouter() as RouterInterface;
+// let q =new IndexRouter() as RouterInterface;
+//
+// let t = q.controllers.pop();
+//
+// let c = Reflect.getMetadata(PATH,t);
+// console.log(c);
 
-let t = q.controllers.pop();
+let symbol = Symbol("y");
 
-let c = Reflect.getMetadata(PATH,t);
-console.log(c);
-let r =1;
+class PluginPackage {
+
+    @Plugin(symbol)
+    hahah:String = '1';
+
+    @Plugin(symbol)
+    func()
+    {
+
+    }
+}
+let p = new PluginPackage();
+
+class TestServer extends MoBasicServer {
+    start(): void {
+        let plugin = this.getPlugin(p,symbol);
+        console.log(plugin);
+    }
+
+    init(): void {
+    }
+
+}
+
+new TestServer().start();

@@ -1,32 +1,36 @@
 import {MoApplication} from "./mo-application.class";
-import "reflect-metadata";
-import {PLUGINS} from "../decorator/mo-plugin";
+import {PLUGINS} from "../decorator/plugin";
 
 export abstract class MoBasicServer extends MoApplication {
-    abstract start():void;
+    abstract start(): void;
 
-    abstract init():void;
+    abstract init(): void;
 
-    pause():void {
-
-    }
-
-    stop():void {
+    pause(): void {
 
     }
 
-    restart():void {
+    stop(): void {
 
     }
 
-    protected getPlugin(pack: Object, name: symbol): any {
-        for (let a in pack) {
-            let str = Reflect.getMetadata(PLUGINS, pack[a]);
-            if (str === name) {
-                return pack[a];
+    restart(): void {
+
+    }
+
+    protected getPlugin(pack: Object, type: symbol): any {
+
+        let pluginList: Array<any> = Reflect.getMetadata(PLUGINS, pack);
+
+        let ret = [];
+
+        for (let p of pluginList) {
+            let Type = Reflect.getMetadata(PLUGINS, pack, p);
+            if (Type == type) {
+                ret.push(pack[p]);
             }
         }
-        return null;
+        return ret;
     }
 }
 

@@ -3,7 +3,7 @@ export * from './src/bin/router-manager';
 export * from './src/bin/server-manager';
 
 export * from './src/decorator/controller';
-export * from './src/decorator/mo-plugin';
+export * from './src/decorator/plugin';
 export * from './src/decorator/router';
 export * from './src/decorator/symbol';
 export * from './src/decorator/method';
