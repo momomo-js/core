@@ -70,7 +70,7 @@ let p = new PluginPackage();
 
 class TestServer extends MoBasicServer {
     start(): void {
-        let plugin = this.getPlugin(p,symbol);
+        let plugin = MoBasicServer.getPlugin(p,symbol);
         console.log(plugin);
     }
 
@@ -79,4 +79,3 @@ class TestServer extends MoBasicServer {
 
 }
 
-new TestServer().start();

@@ -18,7 +18,7 @@ export abstract class MoBasicServer extends MoApplication {
 
     }
 
-    protected getPlugin(pack: Object, type: symbol): any {
+    protected static getPlugin(pack: Object, type: symbol): object[] {
 
         let pluginList: Array<any> = Reflect.getMetadata(PLUGINS, pack);
 
