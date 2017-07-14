@@ -11,7 +11,9 @@
   "author": "yskun",
   "license": "MIT",
   "dependencies": {
+    "co": "^4.6.0",
     "debug": "^2.6.8",
+    "injection-js": "^2.1.0",
     "reflect-metadata": "^0.1.10"
   },
   "devDependencies": {

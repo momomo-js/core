@@ -83,5 +83,6 @@ export class ServerManager extends MoBasicServer {
 }
 
 /**
- * Created by yskun on 2017/5/16.
- */
+    * Created by yskun on 2017/5/16.
+    * MoProject COPYRIGHT
+    */

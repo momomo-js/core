@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import {Router} from "../src/decorator/router";
 import {Controller} from "../src/decorator/controller";
-import {RouterInterface} from "../src/define/router.class";
+import {IRouter} from "../src/define/router.interface";
 import {METHOD, PATH} from "../src/decorator/symbol";
 import {Method} from "../src/decorator/method";
 import {Plugin} from "../src/decorator/plugin";
@@ -46,7 +46,7 @@ class IndexController {
 class IndexRouter {
 }
 
-// let q =new IndexRouter() as RouterInterface;
+// let q =new IndexRouter() as IRouter;
 //
 // let t = q.controllers.pop();
 //

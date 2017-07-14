@@ -4,5 +4,6 @@ export interface ControllerOptions {
 }
 
 /**
- * Created by yskun on 2017/7/7.
- */
+    * Created by yskun on 2017/7/7.
+    * NEXT TEAM COPYRIGHT
+    */

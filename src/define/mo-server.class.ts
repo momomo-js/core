@@ -35,5 +35,6 @@ export abstract class MoBasicServer extends MoApplication {
 }
 
 /**
- * Created by yskun on 2017/7/3.
- */
+    * Created by yskun on 2017/7/3.
+    * MoProject COPYRIGHT
+    */

@@ -44,6 +44,9 @@ export class MoServer extends MoApplication {
      */
     startSever() {
         this.debug('starting MoBasicServer');
+
+        this.routerManager.init();
+
         for (let server of this.serverList) {
             let sIns = server as MoBasicServer;
             sIns.init();
@@ -66,5 +69,6 @@ export class MoServer extends MoApplication {
 
 
 /**
- * Created by yskun on 2017/5/15.
- */
+    * Created by yskun on 2017/5/15.
+    * MoProject COPYRIGHT
+    */

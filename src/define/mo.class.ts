@@ -31,5 +31,6 @@ export abstract class Mo {
 }
 
 /**
- * Created by yskun on 2017/5/17.
- */
+    * Created by yskun on 2017/5/17.
+    * MoProject COPYRIGHT
+    */

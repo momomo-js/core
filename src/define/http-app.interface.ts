@@ -7,5 +7,6 @@ export interface HttpApp {
 }
 
 /**
- * Created by yskun on 2017/7/5.
- */
+    * Created by yskun on 2017/7/5.
+    * MoProject COPYRIGHT
+    */

@@ -19,5 +19,6 @@ export function Method(method: symbol, path?: string) {
 }
 
 /**
- * Created by yskun on 2017/7/7.
- */
+    * Created by yskun on 2017/7/7.
+    * MoProject COPYRIGHT
+    */

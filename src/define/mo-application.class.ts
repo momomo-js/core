@@ -32,5 +32,6 @@ export abstract class MoApplication extends Mo {
 }
 
 /**
- * Created by yskun on 2017/5/15.
- */
+    * Created by yskun on 2017/5/15.
+    * MoProject COPYRIGHT
+    */

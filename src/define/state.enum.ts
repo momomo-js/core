@@ -7,5 +7,6 @@ export enum State {
 }
 
 /**
- * Created by yskun on 2017/7/3.
- */
+    * Created by yskun on 2017/7/3.
+    * MoProject COPYRIGHT
+    */

@@ -12,7 +12,7 @@ require('ts-node').register({
     ]
 });
 
-require('./test.ts');
+require('./test2.ts');
 /**
  * Created by yskun on 2017/5/16.
  */
