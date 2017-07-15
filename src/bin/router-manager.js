@@ -53,15 +53,17 @@ class RouterManager extends mo_application_class_1.MoApplication {
             r._injector = injection_js_1.ReflectiveInjector.resolveAndCreate(provider, this._injector);
             r.controllers = new Map();
             r.services = new Map();
-            for (let s of service_list) {
-                let sIns = r._injector.get(s);
-                r.services.set(s, sIns);
-            }
-            for (let c of controller_list) {
-                let cIns = r._injector.get(c);
-                cIns.router = r;
-                r.controllers.set(c, cIns);
-            }
+            if (service_list)
+                for (let s of service_list) {
+                    let sIns = r._injector.get(s);
+                    r.services.set(s, sIns);
+                }
+            if (controller_list)
+                for (let c of controller_list) {
+                    let cIns = r._injector.get(c);
+                    cIns.router = r;
+                    r.controllers.set(c, cIns);
+                }
         }
     }
 }

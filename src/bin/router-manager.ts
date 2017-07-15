@@ -69,19 +69,18 @@ export class RouterManager extends MoApplication {
             r.controllers = new Map<any, IController>();
             r.services = new Map<any, any>();
 
-            for (let s of service_list) {
-                let sIns = r._injector.get(s);
-                r.services.set(s, sIns);
-            }
+            if (service_list)
+                for (let s of service_list) {
+                    let sIns = r._injector.get(s);
+                    r.services.set(s, sIns);
+                }
 
-            for (let c of controller_list) {
-                let cIns = r._injector.get(c) as IController;
-                cIns.router = r;
-                r.controllers.set(c, cIns);
-
-            }
-
-
+            if (controller_list)
+                for (let c of controller_list) {
+                    let cIns = r._injector.get(c) as IController;
+                    cIns.router = r;
+                    r.controllers.set(c, cIns);
+                }
         }
     }
 }
