@@ -1,7 +1,7 @@
 import {MoApplication} from "../define/mo-application.class";
 import {IRouter} from "../define/router.interface";
 import {IController} from "../define/controller.interface";
-import {ReflectiveInjector} from "injection-js";
+import {Provider, ReflectiveInjector} from "injection-js";
 import {CONTROLLER_LIST, SERVICE_LIST} from "../decorator/symbol";
 
 export class RouterManager extends MoApplication {
@@ -45,7 +45,7 @@ export class RouterManager extends MoApplication {
         return controller_List;
     }
 
-    addService(service: any[]) {
+    addService(service: Provider[]) {
         this._serviceList.push(...service);
     }
 
@@ -87,6 +87,6 @@ export class RouterManager extends MoApplication {
 }
 
 /**
-    * Created by yskun on 2017/7/5.
-    * MoProject COPYRIGHT
-    */
+ * Created by yskun on 2017/7/5.
+ * MoProject COPYRIGHT
+ */

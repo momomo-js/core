@@ -12,6 +12,7 @@ export * from './src/define/http-app.interface';
 export * from './src/define/mo.class';
 export * from './src/define/mo-application.class';
 export * from './src/define/mo-server.class';
+export * from './src/define/module.class';
 export * from './src/define/router.interface';
 export * from './src/define/router-options.interface';
 export * from './src/define/state.enum';

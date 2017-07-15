@@ -9,6 +9,7 @@ class MoServer extends mo_application_class_1.MoApplication {
     constructor(instance = 'instance', port = 3000) {
         super();
         this.serverList = [];
+        this.moduleList = [];
         this.moServer = this;
         this.instance = instance;
         this.debug = debug(instance + ':MoServer');
@@ -23,12 +24,20 @@ class MoServer extends mo_application_class_1.MoApplication {
     }
     startSever() {
         this.debug('starting MoBasicServer');
+        for (let module of this.moduleList) {
+            module = module;
+            module.init();
+        }
         this.routerManager.init();
         for (let server of this.serverList) {
             let sIns = server;
             sIns.init();
         }
         this.serverManager.init();
+        for (let module of this.moduleList) {
+            module = module;
+            module.start();
+        }
         for (let server of this.serverList) {
             let sIns = server;
             sIns.start();
@@ -36,9 +45,16 @@ class MoServer extends mo_application_class_1.MoApplication {
         this.serverManager.start();
     }
     addServer(server) {
-        let sIns = this.loadMoApplication(server);
-        if (server)
+        if (server) {
+            let sIns = this.loadMoApplication(server);
             this.serverList.push(sIns);
+        }
+    }
+    addModule(module) {
+        if (module) {
+            let mIns = this.loadMoApplication(module);
+            this.moduleList.push(mIns);
+        }
     }
 }
 exports.MoServer = MoServer;
