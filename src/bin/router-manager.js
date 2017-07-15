@@ -32,7 +32,9 @@ class RouterManager extends mo_application_class_1.MoApplication {
         let controller_List = [];
         for (let r of this._routerList) {
             r = r;
-            controller_List.push(...r.controllers);
+            for (let c of r.controllers) {
+                controller_List.push(c);
+            }
         }
         return controller_List;
     }

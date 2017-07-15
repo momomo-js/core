@@ -40,8 +40,12 @@ export class RouterManager extends MoApplication {
 
         for (let r of this._routerList) {
             r = r as IRouter;
-            controller_List.push(...r.controllers);
+            for(let c of r.controllers)
+            {
+                controller_List.push(c);
+            }
         }
+
         return controller_List;
     }
 
