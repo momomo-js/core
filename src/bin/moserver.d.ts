@@ -17,8 +17,8 @@ export declare class MoServer extends MoApplication {
     constructor(instance?: string, port?: number);
     state: State;
     startSever(): void;
-    addServer<T extends MoBasicServer>(server: T): void;
-    addModule<T extends Module>(module: T): void;
+    addServer(server: MoBasicServer): void;
+    addModule(module: Module): void;
     private initPlugin();
     addPlugin(plugins: any[]): void;
 }

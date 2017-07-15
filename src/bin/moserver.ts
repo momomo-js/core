@@ -83,14 +83,14 @@ export class MoServer extends MoApplication {
         this.serverManager.start();
     }
 
-    addServer<T extends MoBasicServer>(server: T): void {
+    addServer(server: MoBasicServer): void {
         if (server) {
             let sIns = this.loadMoApplication(server);
             this.serverList.push(sIns);
         }
     }
 
-    addModule<T extends Module>(module: T) {
+    addModule(module: Module):void {
         if (module) {
             let mIns = this.loadMoApplication(module);
             this.moduleList.push(mIns);
