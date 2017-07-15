@@ -11,6 +11,7 @@ class MoServer extends mo_application_class_1.MoApplication {
         super();
         this.serverList = [];
         this.moduleList = [];
+        this.pluginList = [];
         this.moServer = this;
         this.instance = instance;
         this.debug = debug(instance + ':MoServer');

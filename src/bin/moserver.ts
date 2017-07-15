@@ -22,7 +22,7 @@ export class MoServer extends MoApplication {
     moduleList: Module[] = [];
 
     _injector:ReflectiveInjector;
-    pluginList:any[];
+    pluginList:any[] = [];
 
     /**
      *
