@@ -6,7 +6,7 @@ import {State} from "./state.enum";
  * MoApplication的基础类，提供相应的规范
  */
 export abstract class MoApplication extends Mo {
-    protected constructor() {
+    constructor() {
         super();
         this.context = null;
         this.moServer = null;
@@ -23,15 +23,14 @@ export abstract class MoApplication extends Mo {
         return moApplication;
     }
 
-    protected _state:State;
+    protected _state: State;
 
-    get state()
-    {
+    get state() {
         return this._state;
     }
 }
 
 /**
-    * Created by yskun on 2017/5/15.
-    * MoProject COPYRIGHT
-    */
+ * Created by yskun on 2017/5/15.
+ * MoProject COPYRIGHT
+ */

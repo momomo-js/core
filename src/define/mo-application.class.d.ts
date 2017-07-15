@@ -2,7 +2,7 @@ import { Mo } from "./mo.class";
 import { MoServer } from "../bin/moserver";
 import { State } from "./state.enum";
 export declare abstract class MoApplication extends Mo {
-    protected constructor();
+    constructor();
     protected moServer: MoServer;
     protected context: MoApplication;
     instance: string;
