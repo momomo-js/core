@@ -42,10 +42,9 @@ export class RouterManager extends MoApplication {
             r = r as IRouter;
             for(let c of r.controllers)
             {
-                controller_List.push(c);
+                controller_List.push(c.pop());
             }
         }
-
         return controller_List;
     }
 
@@ -85,6 +84,7 @@ export class RouterManager extends MoApplication {
                     cIns.router = r;
                     r.controllers.set(c, cIns);
                 }
+                console.log(r.controllers);
         }
     }
 }

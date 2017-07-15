@@ -33,7 +33,7 @@ class RouterManager extends mo_application_class_1.MoApplication {
         for (let r of this._routerList) {
             r = r;
             for (let c of r.controllers) {
-                controller_List.push(c);
+                controller_List.push(c.pop());
             }
         }
         return controller_List;
@@ -66,6 +66,7 @@ class RouterManager extends mo_application_class_1.MoApplication {
                     cIns.router = r;
                     r.controllers.set(c, cIns);
                 }
+            console.log(r.controllers);
         }
     }
 }

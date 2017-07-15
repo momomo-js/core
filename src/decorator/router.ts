@@ -2,7 +2,7 @@ import {RouterOptions} from "../define/router-options.interface";
 import {CONTROLLER_LIST, SERVICE_LIST} from "./symbol";
 
 export function Router(options?: RouterOptions) {
-    return function (target) {
+    return (target :any) => {
         if(options)
         {
             if(options.controllers)

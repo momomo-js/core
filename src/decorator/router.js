@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const symbol_1 = require("./symbol");
 function Router(options) {
-    return function (target) {
+    return (target) => {
         if (options) {
             if (options.controllers) {
                 Reflect.defineMetadata(symbol_1.CONTROLLER_LIST, options.controllers, target);
