@@ -5,6 +5,7 @@ import {ServerManager} from "./server-manager";
 import {State} from "../define/state.enum";
 import {MoBasicServer} from "../define/mo-server.class";
 import {RouterManager} from "./router-manager";
+import {Module} from "../define/module.class";
 /**
  * 创建MoCreate实例
  */
@@ -16,6 +17,7 @@ export class MoServer extends MoApplication {
     instanceName: string;
 
     serverList: MoBasicServer[] = [];
+    moduleList: Module[] = [];
 
     /**
      *
@@ -38,6 +40,7 @@ export class MoServer extends MoApplication {
         this._state = state;
     }
 
+
     /**
      * 开始加载服务器
      * 并设置状态
@@ -45,13 +48,25 @@ export class MoServer extends MoApplication {
     startSever() {
         this.debug('starting MoBasicServer');
 
+        for (let module of this.moduleList) {
+            module = module as MoBasicServer;
+            module.init();
+        }
+
         this.routerManager.init();
 
         for (let server of this.serverList) {
             let sIns = server as MoBasicServer;
             sIns.init();
         }
+
         this.serverManager.init();
+
+        for (let module of this.moduleList) {
+            module = module as MoBasicServer;
+            module.start();
+        }
+
         for (let server of this.serverList) {
             let sIns = server as MoBasicServer;
             sIns.start();
@@ -60,15 +75,22 @@ export class MoServer extends MoApplication {
     }
 
     addServer<T extends MoBasicServer>(server: T): void {
-        let sIns = this.loadMoApplication(server);
-        if (server)
+        if (server) {
+            let sIns = this.loadMoApplication(server);
             this.serverList.push(sIns);
+        }
     }
 
+    addModule<T extends Module>(module: T) {
+        if (module) {
+            let mIns = this.loadMoApplication(module);
+            this.moduleList.push(mIns);
+        }
+    }
 }
 
 
 /**
-    * Created by yskun on 2017/5/15.
-    * MoProject COPYRIGHT
-    */
+ * Created by yskun on 2017/5/15.
+ * MoProject COPYRIGHT
+ */
