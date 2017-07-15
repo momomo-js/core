@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mo_application_class_1 = require("./mo-application.class");
 const plugin_1 = require("../decorator/plugin");
 class MoBasicServer extends mo_application_class_1.MoApplication {
+    addPlugin(Package) {
+    }
     pause() {
     }
     stop() {

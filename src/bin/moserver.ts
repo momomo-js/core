@@ -6,6 +6,8 @@ import {State} from "../define/state.enum";
 import {MoBasicServer} from "../define/mo-server.class";
 import {RouterManager} from "./router-manager";
 import {Module} from "../define/module.class";
+import {ReflectiveInjector} from "injection-js";
+
 /**
  * 创建MoCreate实例
  */
@@ -18,6 +20,9 @@ export class MoServer extends MoApplication {
 
     serverList: MoBasicServer[] = [];
     moduleList: Module[] = [];
+
+    _injector:ReflectiveInjector;
+    pluginList:any[];
 
     /**
      *
@@ -34,6 +39,8 @@ export class MoServer extends MoApplication {
         this.routerManager = this.loadMoApplication(new RouterManager());
         this.serverManager.port = port;
         this.instanceName = instance;
+        this._injector = ReflectiveInjector.resolveAndCreate([
+            {provide:MoServer,useValue:this}]);
     }
 
     set state(state: State) {
@@ -52,6 +59,8 @@ export class MoServer extends MoApplication {
             module = module as MoBasicServer;
             module.init();
         }
+
+        this.initPlugin();
 
         this.routerManager.init();
 
@@ -85,6 +94,28 @@ export class MoServer extends MoApplication {
         if (module) {
             let mIns = this.loadMoApplication(module);
             this.moduleList.push(mIns);
+        }
+    }
+
+    private initPlugin()
+    {
+        for(let s of this.serverList)
+        {
+            s = s as MoBasicServer;
+            for (let p of this.pluginList)
+            {
+                s.addPlugin(p);
+            }
+        }
+    }
+
+    addPlugin(plugins:any[])
+    {
+        for(let plugin of plugins)
+        {
+            let pIns = this._injector.resolveAndInstantiate(plugin);
+            if(pIns)
+                this.pluginList.push(pIns);
         }
     }
 }

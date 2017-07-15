@@ -6,6 +6,11 @@ export abstract class MoBasicServer extends MoApplication {
 
     abstract init(): void;
 
+    addPlugin(Package:any): void
+    {
+
+    }
+
     pause(): void {
 
     }
@@ -17,6 +22,8 @@ export abstract class MoBasicServer extends MoApplication {
     restart(): void {
 
     }
+
+
 
     protected static getPlugin(pack: Object, type: symbol): any[] {
 
