@@ -66,7 +66,6 @@ class RouterManager extends mo_application_class_1.MoApplication {
                     cIns.router = r;
                     r.controllers.set(c, cIns);
                 }
-            console.log(r.controllers);
         }
     }
 }

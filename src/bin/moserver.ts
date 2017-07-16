@@ -21,8 +21,8 @@ export class MoServer extends MoApplication {
     serverList: MoBasicServer[] = [];
     moduleList: Module[] = [];
 
-    _injector:ReflectiveInjector;
-    pluginList:any[] = [];
+    _injector: ReflectiveInjector;
+    pluginList: any[] = [];
 
     /**
      *
@@ -40,7 +40,7 @@ export class MoServer extends MoApplication {
         this.serverManager.port = port;
         this.instanceName = instance;
         this._injector = ReflectiveInjector.resolveAndCreate([
-            {provide:MoServer,useValue:this}]);
+            {provide: MoServer, useValue: this}]);
     }
 
     set state(state: State) {
@@ -90,31 +90,27 @@ export class MoServer extends MoApplication {
         }
     }
 
-    addModule(module: Module):void {
+    addModule(module: Module): void {
         if (module) {
             let mIns = this.loadMoApplication(module);
             this.moduleList.push(mIns);
         }
     }
 
-    private initPlugin()
-    {
-        for(let s of this.serverList)
-        {
-            s = s as MoBasicServer;
-            for (let p of this.pluginList)
-            {
+    private initPlugin() {
+        for (let p of this.pluginList) {
+            for (let s of this.serverList) {
+                s = s as MoBasicServer;
                 s.addPlugin(p);
             }
         }
+
     }
 
-    addPlugin(plugins:any[])
-    {
-        for(let plugin of plugins)
-        {
+    addPlugin(plugins: any[]) {
+        for (let plugin of plugins) {
             let pIns = this._injector.resolveAndInstantiate(plugin);
-            if(pIns)
+            if (pIns)
                 this.pluginList.push(pIns);
         }
     }

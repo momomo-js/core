@@ -63,9 +63,9 @@ class MoServer extends mo_application_class_1.MoApplication {
         }
     }
     initPlugin() {
-        for (let s of this.serverList) {
-            s = s;
-            for (let p of this.pluginList) {
+        for (let p of this.pluginList) {
+            for (let s of this.serverList) {
+                s = s;
                 s.addPlugin(p);
             }
         }

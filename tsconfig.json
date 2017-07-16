@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
+    "module": "commonjs",
     "target": "es2016",
     "sourceMap": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "stripInternal": true,
-    "declaration": true
+    "emitDecoratorMetadata": true
   },
   "exclude": [
     "node_modules"
