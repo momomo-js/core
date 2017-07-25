@@ -30,7 +30,7 @@ export function Controller(options?: ControllerOptions) {
                 if(options.models)
                 {
                     for(let model of options.models) {
-                        cIns.modelList.set(model.name,new model());
+                        cIns.modelList.set(model.name,model);
                     }
 
                     Reflect.defineMetadata(MODELLIST,options.models,cIns);
