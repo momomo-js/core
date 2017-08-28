@@ -1,33 +1,25 @@
-import {Mo} from "./mo.class";
-import {MoServer} from "../bin/moserver";
-import {State} from "./state.enum";
+import {Mo} from './mo.class';
+import {MoServer} from '../bin/moserver';
 
 /**
+ * @deprecated
  * MoApplication的基础类，提供相应的规范
  */
 export abstract class MoApplication extends Mo {
-    constructor() {
-        super();
-        this.context = null;
-        this.moServer = null;
-    }
-
+    public instance: string;
     protected moServer: MoServer;
     protected context: MoApplication;
-    public instance: string;
+
+    constructor() {
+        super();
+    }
 
     protected loadMoApplication<T extends MoApplication>(moApplication: T): T {
         moApplication.moServer = this.moServer;
         moApplication.context = this;
-        moApplication.debug = this.moServer.debug;
         return moApplication;
     }
 
-    protected _state: State;
-
-    get state() {
-        return this._state;
-    }
 }
 
 /**
