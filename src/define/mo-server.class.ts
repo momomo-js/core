@@ -1,47 +1,43 @@
-import {MoApplication} from "./mo-application.class";
-import {PLUGINS} from "../decorator/plugin";
+import {PLUGINS} from '../decorator/plugin';
+import {Mo} from './mo.class';
+import {MoApplicationCycleLife} from './mo-cycle-life.interface';
 
-export abstract class MoBasicServer extends MoApplication {
-    abstract start(): void;
+export abstract class MoBasicServer extends Mo implements MoApplicationCycleLife {
 
-    abstract init(): void;
+    protected static getPlugin(pack: any, type: symbol): any[] {
 
-    addPlugin(Package:any): void
-    {
+        const pluginList: Array<string> = Reflect.getMetadata(PLUGINS, pack);
 
-    }
-
-    pause(): void {
-
-    }
-
-    stop(): void {
-
-    }
-
-    restart(): void {
-
-    }
-
-
-
-    protected static getPlugin(pack: Object, type: symbol): any[] {
-
-        let pluginList: Array<any> = Reflect.getMetadata(PLUGINS, pack);
-
-        let ret = [];
-
-        for (let p of pluginList) {
-            let Type = Reflect.getMetadata(PLUGINS, pack, p);
-            if (Type == type) {
+        const ret: any[] = [];
+        for (const p of pluginList) {
+            const Type: any = Reflect.getMetadata(PLUGINS, pack, p);
+            if (Type === type) {
                 ret.push(pack[p]);
             }
         }
         return ret;
     }
+
+
+    addPlugin(Package: any): void {
+
+    }
+
+    onStop() {
+        this.debug(`stopping ${this.instance}`)
+    }
+
+    onStart() {
+        this.debug(`starting ${this.instance}`)
+    }
+
+    onInit() {
+        this.debug(`initializing  ${this.instance}`)
+    }
+
 }
 
 /**
-    * Created by yskun on 2017/7/3.
-    * MoProject COPYRIGHT
-    */
+ * Created by yskun on 2017/7/3.
+ * MoProject COPYRIGHT
+ */

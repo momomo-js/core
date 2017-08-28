@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 export enum State {
     onError,
     onReady,

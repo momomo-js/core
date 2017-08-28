@@ -1,35 +1,21 @@
 import * as http from 'http';
-import {State} from '../define/state.enum';
-import {MoBasicServer} from '../define/mo-server.class';
 import {HttpApp} from '../define/http-app.interface';
+import {Mo} from '../define/mo.class';
+import {MoApplicationCycleLife} from '../define/mo-cycle-life.interface';
 
-export class ServerManager extends MoBasicServer {
+export class ServerManager extends Mo implements MoApplicationCycleLife {
     server: http.Server;
     public port: number;
-    private _app: HttpApp;
+    public host: string;
+    public app: HttpApp;
 
     constructor() {
         super();
     }
 
-    set app(app: HttpApp) {
-        this._app = app;
-    }
-
-    start(): void {
-        this.server.listen(
-            this.port
-        );
-
-    }
-
-    init(): void {
-        if (!this.port) {
-            throw new Error('server port have not set');
-        }
-
+    onInit() {
         this.server = http.createServer(
-            this._app
+            this.app
         );
 
         this.server.on('error', (err => {
@@ -38,6 +24,27 @@ export class ServerManager extends MoBasicServer {
         this.server.on('listening', () => {
             this.OnListening();
         });
+    }
+
+    onStart() {
+        if (!this.port) {
+            throw new Error('server port have not set');
+        }
+
+        if (!this.host) {
+            throw new Error('server host have not set');
+        }
+
+        this.server.listen(
+            this.port,
+            this.host
+        );
+    }
+
+    onStop() {
+        if (this.server) {
+            this.server.close();
+        }
     }
 
     private OnError(err) {

@@ -1,9 +1,11 @@
-import {MoApplication} from './mo-application.class';
+import {Mo} from './mo.class';
+import {OnInit, OnStart} from './mo-cycle-life.interface';
 
-export abstract class Module extends MoApplication {
-    abstract init(): void;
+export abstract class Module extends Mo implements OnInit, OnStart {
 
-    abstract start(): void;
+    abstract onInit(): void;
+
+    abstract onStart(): void;
 }
 
 /**

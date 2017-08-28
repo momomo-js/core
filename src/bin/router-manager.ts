@@ -1,10 +1,11 @@
-import {MoApplication} from '../define/mo-application.class';
 import {IRouter} from '../define/router.interface';
 import {IController} from '../define/controller.interface';
 import {Provider, ReflectiveInjector} from 'injection-js';
 import {CONTROLLER_LIST, SERVICE_LIST} from '../decorator/symbol';
+import {Mo} from '../define/mo.class';
+import {MoApplicationCycleLife} from '../define/mo-cycle-life.interface';
 
-export class RouterManager extends MoApplication {
+export class RouterManager extends Mo implements MoApplicationCycleLife {
     private _routerList: Map<any, IRouter> = new Map();
     private _serviceList: Array<any> = [];
     private _injector: ReflectiveInjector;
@@ -21,26 +22,7 @@ export class RouterManager extends MoApplication {
         return controller_List;
     }
 
-    addRouter(routerList: any[]) {
-        for (const r of routerList) {
-            if (!this._routerList.has(r)) {
-                const rIns = new r;
-                this._routerList.set(r, rIns as IRouter);
-            } else {
-                this.debug(`${r.constructor.name} has been initialization`);
-            }
-        }
-    }
-
-    delRouter(router: any): boolean {
-        return this._routerList.delete(router);
-    }
-
-    addService(service: Provider[]) {
-        this._serviceList.push(...service);
-    }
-
-    init() {
+    onInit() {
         this._injector = ReflectiveInjector.resolveAndCreate(this._serviceList);
         for (const router of this._routerList) {
 
@@ -79,6 +61,32 @@ export class RouterManager extends MoApplication {
             }
         }
     }
+
+    onStart() {
+    }
+
+    onStop() {
+    }
+
+    addRouter(routerList: any[]) {
+        for (const r of routerList) {
+            if (!this._routerList.has(r)) {
+                const rIns = new r;
+                this._routerList.set(r, rIns as IRouter);
+            } else {
+                this.debug(`${r.constructor.name} has been initialization`);
+            }
+        }
+    }
+
+    delRouter(router: any): boolean {
+        return this._routerList.delete(router);
+    }
+
+    addService(service: Provider[]) {
+        this._serviceList.push(...service);
+    }
+
 }
 
 /**
