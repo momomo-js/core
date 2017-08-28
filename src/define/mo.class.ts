@@ -1,4 +1,4 @@
-import * as debug from "debug";
+import * as debug from 'debug';
 
 
 /**
@@ -6,31 +6,27 @@ import * as debug from "debug";
  */
 export abstract class Mo {
     public instance: string;
+
+    constructor() {
+        this.instance = this.constructor.name;
+    }
+
     private _debug: debug.IDebugger;
 
-    get debug():debug.IDebugger
-    {
-        if(this._debug)
-        {
-            this._debug.namespace = this.instance + ": MoServer";
+    get debug(): debug.IDebugger {
+        if (this._debug) {
+            this._debug.namespace = this.instance + ': MoServer';
             return this._debug;
         }
     }
 
-    set debug(debug:debug.IDebugger)
-    {
+    set debug(debug: debug.IDebugger) {
         this._debug = debug;
-    }
-
-
-    constructor()
-    {
-        this.instance = this.constructor.name;
     }
 
 }
 
 /**
-    * Created by yskun on 2017/5/17.
-    * MoProject COPYRIGHT
-    */
+ * Created by yskun on 2017/5/17.
+ * MoProject COPYRIGHT
+ */

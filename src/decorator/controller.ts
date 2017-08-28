@@ -16,7 +16,7 @@ export function Controller(options?: ControllerOptions) {
             c.prototype = constructor.prototype;
 
             let cIns = new c();
-            let path = null;
+            let path: String;
 
             if (options) {
                 if (!options.path) {

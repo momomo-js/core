@@ -4,7 +4,8 @@
     "target": "es2016",
     "sourceMap": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "strictNullChecks": true
   },
   "exclude": [
     "node_modules"

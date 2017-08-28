@@ -1,12 +1,12 @@
-import "reflect-metadata";
-import * as debug from "debug";
-import {MoApplication} from "../define/mo-application.class";
-import {ServerManager} from "./server-manager";
-import {State} from "../define/state.enum";
-import {MoBasicServer} from "../define/mo-server.class";
-import {RouterManager} from "./router-manager";
-import {Module} from "../define/module.class";
-import {ReflectiveInjector} from "injection-js";
+import 'reflect-metadata';
+import * as debug from 'debug';
+import {MoApplication} from '../define/mo-application.class';
+import {ServerManager} from './server-manager';
+import {State} from '../define/state.enum';
+import {MoBasicServer} from '../define/mo-server.class';
+import {RouterManager} from './router-manager';
+import {Module} from '../define/module.class';
+import {ReflectiveInjector} from 'injection-js';
 
 /**
  * 创建MoCreate实例
@@ -34,7 +34,6 @@ export class MoServer extends MoApplication {
         this.moServer = this;
         this.instance = instance;
         this.debug = debug(instance + ':MoServer');
-        this.context = null;
         this.serverManager = this.loadMoApplication(new ServerManager());
         this.routerManager = this.loadMoApplication(new RouterManager());
         this.serverManager.port = port;
@@ -64,9 +63,8 @@ export class MoServer extends MoApplication {
 
         this.routerManager.init();
 
-        for (let server of this.serverList) {
-            let sIns = server as MoBasicServer;
-            sIns.init();
+        for (const server of this.serverList) {
+            server.init();
         }
 
         this.serverManager.init();
@@ -97,6 +95,14 @@ export class MoServer extends MoApplication {
         }
     }
 
+    addPlugin(plugins: any[]) {
+        for (let plugin of plugins) {
+            let pIns = this._injector.resolveAndInstantiate(plugin);
+            if (pIns)
+                this.pluginList.push(pIns);
+        }
+    }
+
     private initPlugin() {
         for (let p of this.pluginList) {
             for (let s of this.serverList) {
@@ -105,14 +111,6 @@ export class MoServer extends MoApplication {
             }
         }
 
-    }
-
-    addPlugin(plugins: any[]) {
-        for (let plugin of plugins) {
-            let pIns = this._injector.resolveAndInstantiate(plugin);
-            if (pIns)
-                this.pluginList.push(pIns);
-        }
     }
 }
 

@@ -1,7 +1,9 @@
-import {MoApplication} from "./mo-application.class";
+import {MoApplication} from './mo-application.class';
+
 export abstract class Module extends MoApplication {
-    abstract init():void;
-    abstract start():void;
+    abstract init(): void;
+
+    abstract start(): void;
 }
 
 /**

@@ -7,7 +7,7 @@ export class ServerManager extends MoBasicServer {
 
     server: http.Server;
     private _port: number;
-    private _app: HttpApp = null;
+    private _app: HttpApp;
 
 
     set port(port: number) {
