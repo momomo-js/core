@@ -2,12 +2,14 @@ import 'reflect-metadata';
 import {ServerManager} from './server-manager';
 import {MoBasicServer} from '../define/mo-server.class';
 import {RouterManager} from './router-manager';
-import {Module} from '../define/module.class';
+import {Component} from '../define/component.class';
 import {ReflectiveInjector} from 'injection-js';
 import {Mo} from '../define/mo.class';
 import {MoCycleLife} from '../define/mo-cycle-life.interface';
 import {MoInstance} from '../define/mo-instance.class';
-import {MoServerToken} from '../decorator/symbol';
+import {INSTANCE, MODULE, MoServerToken, TARGET} from '../decorator/symbol';
+import {InstanceOptions} from '../define/instance-options.interface';
+import {ModuleOptions} from '../define/module-options.interface';
 
 /**
  * 创建MoCreate实例
@@ -16,11 +18,10 @@ export class MoServer extends Mo implements MoCycleLife {
     serverManager: ServerManager;
     routerManager: RouterManager;
     moInstance: MoInstance;
-    instanceName: string;
-    serverList: MoBasicServer[] = [];
-    moduleList: Module[] = [];
+    moduleList: Map<any, Component> = new Map();
+    serverList: Map<any, MoBasicServer> = new Map();
+    pluginPackageList: Map<any, any> = new Map();
     _injector: ReflectiveInjector;
-    pluginList: any[] = [];
 
     /**
      *
@@ -29,19 +30,20 @@ export class MoServer extends Mo implements MoCycleLife {
     constructor(instance: MoInstance) {
         super();
         this.initInjector(instance);
-        this.instanceName = this.moInstance.instance;
-        this.serverManager.port = this.moInstance.port;
-        this.serverManager.host = this.moInstance.host;
+        this.initInstance();
         this.bindExitProcess();
     }
 
     async onInit() {
+        // 装载plugins
+        // 装载router
+
         await this.moInstance.onInit();
 
         await this.routerManager.onInit();
 
         for (const server of this.serverList) {
-            await server.onInit();
+            await server[1].onInit();
         }
 
         await this.serverManager.onInit();
@@ -53,7 +55,7 @@ export class MoServer extends Mo implements MoCycleLife {
         await this.routerManager.onStart();
 
         for (const server of this.serverList) {
-            await server.onStart();
+            await server[1].onStart();
         }
 
         await this.serverManager.onStart();
@@ -65,7 +67,7 @@ export class MoServer extends Mo implements MoCycleLife {
         await this.routerManager.onStop();
 
         for (const server of this.serverList) {
-            await server.onStop();
+            await server[1].onStop();
         }
 
         await this.serverManager.onStop();
@@ -85,51 +87,73 @@ export class MoServer extends Mo implements MoCycleLife {
         await this.onStart();
     }
 
-    /**
-     * @deprecated
-     * @param {MoBasicServer} server
-     */
-    addServer(server: MoBasicServer): void {
-        if (server) {
-            const sIns = this.loadMoApplication(server);
-            this.serverList.push(sIns);
+
+    private initInstance() {
+        const options: InstanceOptions = Reflect.getMetadata(INSTANCE, this.moInstance);
+        this.instance = options.instance.name;
+        this.serverManager.port = options.instance.port;
+        this.serverManager.host = options.instance.host;
+
+        if (options.servers) {
+            this.pushServer(options.servers);
+        }
+
+        if (options.modules) {
+            this.pushModule(options.modules);
+        }
+
+        this.handleModule(this.moInstance);
+
+        this.handlePluginPackage();
+    }
+
+    private pushModule(modules: any[]) {
+        if (modules instanceof Array) {
+            modules.map(value => {
+                if (!this.moduleList.has(value)) {
+                    const module = this._injector.resolveAndInstantiate(value);
+                    this.moduleList.set(value, module);
+                    this.handleModule(module);
+                }
+            });
         }
     }
 
-    /**
-     * @deprecated
-     * @param {Module} module
-     */
-    addModule(module: Module): void {
-        if (module) {
-            const mIns = this.loadMoApplication(module);
-            this.moduleList.push(mIns);
+    private handleModule(module: any) {
+        const options: ModuleOptions = Reflect.getMetadata(MODULE, module);
+
+        if (options.plugins) {
+            this.pushPluginPackage(options.plugins);
+        }
+
+        if (options.routers instanceof Array) {
+            this.pushRouter(options.routers);
         }
     }
 
-    /**
-     * @deprecated
-     * @param {any[]} plugins
-     */
-    addPlugin(plugins: any[]) {
-        for (const plugin of plugins) {
-            const pIns = this._injector.resolveAndInstantiate(plugin);
-            if (pIns) {
-                this.pluginList.push(pIns);
-            }
+    private pushServer(servers: typeof MoBasicServer[]) {
+        if (servers instanceof Array) {
+            this._injector = this._injector.resolveAndCreateChild(<any[]>servers);
         }
     }
 
-    /**
-     * @deprecated
-     * @param {T} moApplication
-     * @returns {T}
-     */
-    protected loadMoApplication<T extends Mo>(moApplication: T): T {
-        moApplication['moServer'] = this;
-        moApplication['context'] = this;
-        return moApplication;
+    private pushPluginPackage(plugins: any[]) {
+        if (plugins instanceof Array) {
+            plugins.map(value => {
+                if (!this.pluginPackageList.has(value)) {
+                    const pPackage = this._injector.resolveAndInstantiate(value);
+                    this.pluginPackageList.set(value, pPackage);
+                }
+            });
+        }
     }
+
+    private pushRouter(routers: any[]) {
+        if (routers instanceof Array) {
+            this.routerManager.addRouter(routers);
+        }
+    }
+
 
     private initInjector(instance: any) {
         this._injector = ReflectiveInjector.resolveAndCreate(
@@ -158,16 +182,18 @@ export class MoServer extends Mo implements MoCycleLife {
         });
     }
 
-    /**
-     * @deprecated
-     */
-    private initPlugin() {
-        for (const p of this.pluginList) {
-            for (let s of this.serverList) {
-                s = s as MoBasicServer;
-                s.addPlugin(p);
+    private handlePluginPackage() {
+        this.pluginPackageList.forEach(value => {
+            const target = Reflect.getMetadata(TARGET, value);
+            if (this.serverList.has(target)) {
+                const server = this.serverList.get(target);
+                if (server) {
+                    server.addPlugin(value);
+                }
+            } else {
+                this.debug(`plugin ${value.constructor.name} can not init to ${target.name}`);
             }
-        }
+        });
     }
 }
 

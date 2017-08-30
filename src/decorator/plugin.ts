@@ -1,4 +1,4 @@
-export const PLUGINS = Symbol("plugins");
+export const PLUGINS = Symbol('plugins');
 
 export function Plugin(name: symbol) {
     return function (target: any, propertyKey: string) {
@@ -15,6 +15,6 @@ export function Plugin(name: symbol) {
 }
 
 /**
-    * Created by yskun on 2017/7/3.
-    * MoProject COPYRIGHT
-    */
+ * Created by yskun on 2017/7/3.
+ * MoProject COPYRIGHT
+ */

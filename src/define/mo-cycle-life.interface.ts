@@ -17,7 +17,7 @@ export interface OnExit {
 export interface MoApplicationCycleLife extends OnInit, OnStart, OnStop {
 }
 
-export interface MoInstanceCycleLife extends OnInit, OnStart, OnStop, OnExit {
+export interface MoInstanceCycleLife extends MoApplicationCycleLife, OnExit {
 }
 
 export interface MoCycleLife extends OnInit, OnStart, OnStop, OnExit {

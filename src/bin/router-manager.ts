@@ -15,8 +15,8 @@ export class RouterManager extends Mo implements MoApplicationCycleLife {
 
         for (const r of this._routerList) {
             // todo Controller Should Change to the metadata-type
-            for (const c of r[2].controllers) {
-                controller_List.push(c[2]);
+            for (const c of r[1].controllers) {
+                controller_List.push(c[1]);
             }
         }
         return controller_List;
@@ -26,7 +26,7 @@ export class RouterManager extends Mo implements MoApplicationCycleLife {
         this._injector = ReflectiveInjector.resolveAndCreate(this._serviceList);
         for (const router of this._routerList) {
 
-            const r = router[2];
+            const r = router[1];
 
             const controller_list: any[] = Reflect.getMetadata(CONTROLLER_LIST, r.constructor);
             const service_list: any[] = Reflect.getMetadata(SERVICE_LIST, r.constructor);
