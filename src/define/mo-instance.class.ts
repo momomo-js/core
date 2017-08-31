@@ -2,9 +2,6 @@ import {MoInstanceCycleLife} from './mo-cycle-life.interface';
 import {Mo} from './mo.class';
 
 export abstract class MoInstance extends Mo implements MoInstanceCycleLife {
-    instance = 'instance';
-    port = 3000;
-    host = 'localhost';
 
     abstract onInit();
 

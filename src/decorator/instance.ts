@@ -6,7 +6,8 @@ export function Instance(options: InstanceOptions) {
     return (target: any) => {
         const module: ModuleOptions = {
             routers: options.routers,
-            plugins: options.plugins
+            plugins: options.plugins,
+            components: options.components
         };
         const instance: InstanceOptions = {
             modules: options.modules,
@@ -14,7 +15,7 @@ export function Instance(options: InstanceOptions) {
             servers: options.servers
         };
 
-        Reflect.defineMetadata(target, MODULE, module);
-        Reflect.defineMetadata(target, INSTANCE, instance);
+        Reflect.defineMetadata(MODULE, module, target);
+        Reflect.defineMetadata(INSTANCE, instance, target);
     }
 }

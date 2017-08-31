@@ -23,10 +23,12 @@ export class RouterManager extends Mo implements MoApplicationCycleLife {
     }
 
     onInit() {
+        this.debug(`init router`);
         this._injector = ReflectiveInjector.resolveAndCreate(this._serviceList);
         for (const router of this._routerList) {
 
             const r = router[1];
+            this.debug(`init -> ${r.constructor.name}`);
 
             const controller_list: any[] = Reflect.getMetadata(CONTROLLER_LIST, r.constructor);
             const service_list: any[] = Reflect.getMetadata(SERVICE_LIST, r.constructor);

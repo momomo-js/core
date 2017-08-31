@@ -3,6 +3,6 @@ import {MODULE} from './symbol';
 
 export function Module(options: ModuleOptions) {
     return (target: any) => {
-        Reflect.defineMetadata(target, MODULE, options);
+        Reflect.defineMetadata(MODULE, options, target);
     }
 }

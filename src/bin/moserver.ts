@@ -6,12 +6,10 @@ import {Component} from '../define/component.class';
 import {ReflectiveInjector} from 'injection-js';
 import {Mo} from '../define/mo.class';
 import {MoApplicationCycleLife, MoCycleLife} from '../define/mo-cycle-life.interface';
-import {MoInstance} from '../define/mo-instance.class';
 import {INSTANCE, MODULE, MoServerToken, SERVER, TARGET} from '../decorator/symbol';
 import {InstanceOptions} from '../define/instance-options.interface';
 import {ModuleOptions} from '../define/module-options.interface';
 import {ServerOptions} from '../define/server-options';
-import {IInjector} from '../define/injector.interface';
 
 /**
  * 创建MoCreate实例
@@ -19,8 +17,8 @@ import {IInjector} from '../define/injector.interface';
 export class MoServer extends Mo implements MoCycleLife {
     serverManager: ServerManager;
     routerManager: RouterManager;
-    moInstance: MoInstance;
-    moduleList: Map<any, Component> = new Map();
+    moduleList: Set<any> = new Set();
+    componentList: Component[] = [];
     serverList: Map<any, MoBasicServer> = new Map();
     pluginPackageList: Map<any, any> = new Map();
     _injector: ReflectiveInjector;
@@ -31,10 +29,11 @@ export class MoServer extends Mo implements MoCycleLife {
      *
      * @param instance 网站实例
      */
-    constructor(instance: MoInstance) {
+    constructor(instance: any) {
         super();
-        this.initInjector(instance);
-        this.initInstance();
+
+        this.initInjector();
+        this.initInstance(instance);
         this.bindExitProcess();
     }
 
@@ -42,7 +41,13 @@ export class MoServer extends Mo implements MoCycleLife {
         // 装载plugins
 
         // 装载router
-        await this.moInstance.onInit();
+
+        for (const c of this.componentList) {
+            if (c.onInit instanceof Function) {
+                c.onInit();
+            }
+        }
+        // await this.moInstance.onInit();
 
         this.handlePluginPackage();
 
@@ -58,7 +63,12 @@ export class MoServer extends Mo implements MoCycleLife {
     }
 
     async onStart() {
-        await this.moInstance.onStart();
+        // await this.moInstance.onStart();
+        for (const c of this.componentList) {
+            if (c.onStart instanceof Function) {
+                c.onStart();
+            }
+        }
 
         await this.routerManager.onStart();
 
@@ -72,8 +82,12 @@ export class MoServer extends Mo implements MoCycleLife {
     }
 
     async onStop() {
-        await this.moInstance.onStop();
-
+        // await this.moInstance.onStop();
+        for (const c of this.componentList) {
+            if (c.onStop instanceof Function) {
+                c.onStop();
+            }
+        }
         await this.routerManager.onStop();
 
         for (const application of this.serverCycleLife) {
@@ -86,7 +100,7 @@ export class MoServer extends Mo implements MoCycleLife {
     }
 
     async onExit() {
-        await this.moInstance.onExit();
+        // await this.moInstance.onExit();
     }
 
     /**
@@ -100,8 +114,8 @@ export class MoServer extends Mo implements MoCycleLife {
     }
 
 
-    private initInstance() {
-        const options: InstanceOptions = Reflect.getMetadata(INSTANCE, this.moInstance);
+    private initInstance(instance: any) {
+        const options: InstanceOptions = Reflect.getMetadata(INSTANCE, instance);
         this.instance = options.instance.name;
         this.serverManager.port = options.instance.port;
         this.serverManager.host = options.instance.host;
@@ -114,7 +128,7 @@ export class MoServer extends Mo implements MoCycleLife {
             this.pushModule(options.modules);
         }
 
-        this.handleModule(this.moInstance);
+        this.handleModule(instance);
 
     }
 
@@ -122,9 +136,8 @@ export class MoServer extends Mo implements MoCycleLife {
         if (modules instanceof Array) {
             modules.map(value => {
                 if (!this.moduleList.has(value)) {
-                    const module = this._injector.resolveAndInstantiate(value);
-                    this.moduleList.set(value, module);
-                    this.handleModule(module);
+                    this.moduleList.add(value);
+                    this.handleModule(value);
                 }
             });
         }
@@ -140,19 +153,27 @@ export class MoServer extends Mo implements MoCycleLife {
         if (options.routers instanceof Array) {
             this.pushRouter(options.routers);
         }
+
+        if (options.components instanceof Array) {
+            for (const component of options.components) {
+                const cIns = this._injector.resolveAndInstantiate(<any>component);
+                this.componentList.push(cIns);
+            }
+        }
     }
 
     private pushServer(servers: any[]) {
         if (servers instanceof Array) {
             for (const server of servers) {
-                const sIns: IInjector = new server;
-                const serverOptions: ServerOptions = Reflect.getMetadata(SERVER, sIns);
-                sIns._injector = this._injector.resolveAndCreateChild([<any>serverOptions.main]);
-                const sManager = sIns._injector.get(serverOptions.main);
+                // const sIns: IInjector = new server;
+                const serverOptions: ServerOptions = Reflect.getMetadata(SERVER, server);
+                const injector = this._injector.resolveAndCreateChild([<any>serverOptions.main]);
+                const sManager = injector.get(serverOptions.main);
+                this.serverList.set(server, sManager);
                 this.serverCycleLife.push(sManager);
                 if (serverOptions.components instanceof Array) {
                     for (const component of serverOptions.components) {
-                        const cIns = sIns._injector.resolveAndInstantiate(component);
+                        const cIns = injector.resolveAndInstantiate(component);
                         this.serverCycleLife.push(cIns);
                     }
                 }
@@ -178,16 +199,14 @@ export class MoServer extends Mo implements MoCycleLife {
     }
 
 
-    private initInjector(instance: any) {
+    private initInjector() {
         this._injector = ReflectiveInjector.resolveAndCreate(
             [
                 {provide: MoServerToken, useValue: this},
                 ServerManager,
-                RouterManager,
-                instance
+                RouterManager
             ]);
 
-        this.moInstance = this._injector.get(instance);
         this.serverManager = this._injector.get(ServerManager);
         this.routerManager = this._injector.get(RouterManager);
     }
@@ -206,8 +225,8 @@ export class MoServer extends Mo implements MoCycleLife {
     }
 
     private handlePluginPackage() {
-        this.pluginPackageList.forEach(value => {
-            const target = Reflect.getMetadata(TARGET, value);
+        this.pluginPackageList.forEach((value, key) => {
+            const target = Reflect.getMetadata(TARGET, key);
             if (this.serverList.has(target)) {
                 const server = this.serverList.get(target);
                 if (server) {

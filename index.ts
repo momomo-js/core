@@ -9,6 +9,7 @@ export * from './src/decorator/module';
 export * from './src/decorator/plugin';
 export * from './src/decorator/plugin-package';
 export * from './src/decorator/router';
+export * from './src/decorator/server';
 export * from './src/decorator/symbol';
 
 export * from './src/define/component.class';

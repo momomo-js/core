@@ -1,42 +1,16 @@
-import 'reflect-metadata';
-import {Router} from "../src/decorator/router";
-import {Controller} from "../src/decorator/controller";
-import {IRouter} from "../src/define/router.interface";
-import {METHOD, PATH} from "../src/decorator/symbol";
-import {Method} from "../src/decorator/method";
-import {Plugin} from "../src/decorator/plugin";
-import {MoServer} from "../src/bin/moserver";
-import {MoBasicServer} from "../src/define/mo-server.class";
-
-
-class IndexModel {
-    test: string = '';
-    @Plugin(Symbol("y"))
-    haha: string;
-
-    @Plugin(Symbol("y"))
-    fun()
-    {
-
-    }
-}
+import {Controller} from '../src/decorator/controller';
+import {Router} from '../src/decorator/router';
+import {Instance} from '../src/decorator/instance';
+import {MoInstance} from '../src/define/mo-instance.class';
+import {MoServer} from '../src/bin/moserver';
+import {ExpressServer} from '../../express/out/src/bin/express-server';
 
 @Controller({
-    models:[
-        IndexModel
-    ],
-    path:'/'
+    path: '/'
 })
 class IndexController {
-    @Method(METHOD)
-    index()
-    {
-
-    }
 
 }
-
-
 
 @Router({
     controllers: [
@@ -46,36 +20,18 @@ class IndexController {
 class IndexRouter {
 }
 
-// let q =new IndexRouter() as IRouter;
-//
-// let t = q.controllers.pop();
-//
-// let c = Reflect.getMetadata(PATH,t);
-// console.log(c);
-
-let symbol = Symbol("y");
-
-class PluginPackage {
-
-    @Plugin(symbol)
-    hahah:String = '1';
-
-    @Plugin(symbol)
-    func()
-    {
-
+@Instance({
+    servers: [],
+    modules: [],
+    routers: [IndexRouter],
+    components: [],
+    instance: {
+        name: 'TEST',
+        host: 'localhost',
+        port: 3000
     }
-}
-let p = new PluginPackage();
-
-class TestServer extends MoBasicServer {
-    start(): void {
-        let plugin = MoBasicServer.getPlugin(p,symbol);
-        console.log(plugin);
-    }
-
-    init(): void {
-    }
-
+})
+class TestInstance {
 }
 
+new MoServer(TestInstance).startSever();
