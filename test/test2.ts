@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import {ReflectiveInjector, Injectable, Injector} from 'injection-js';
-import {Router} from "../src/decorator/router";
-import {Controller} from "../src/decorator/controller";
+import {Router} from '../src/decorator/router';
+import {Controller} from '../src/decorator/controller';
 import construct = Reflect.construct;
-import {MoServer} from "../src/bin/moserver";
-import {IRouter} from "../src/define/router.interface";
+import {MoServer} from '../src/bin/moserver';
+import {IRouter} from '../src/define/router.interface';
 
 @Injectable()
 class Http {
@@ -56,17 +56,16 @@ class HahaController {
     ]
 })
 class RootRouter {
-    test()
-    {
+    test() {
         console.log(`run in ${RootRouter.name}`);
 
     }
 }
 
-let service = new MoServer();
+// let service = new MoServer();
 
-service.routerManager.addRouter([RootRouter]);
-service.routerManager.addService([TestService2,Http]);
-
-service.startSever();
+// service.routerManager.addRouter([RootRouter]);
+// service.routerManager.addService([TestService2,Http]);
+//
+// service.startSever();
 
