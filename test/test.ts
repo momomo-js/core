@@ -25,6 +25,7 @@ class IndexRouter {
     modules: [],
     routers: [IndexRouter],
     components: [],
+    plugins: [],
     instance: {
         name: 'TEST',
         host: 'localhost',
@@ -34,4 +35,6 @@ class IndexRouter {
 class TestInstance {
 }
 
-new MoServer(TestInstance).startSever();
+MoServer
+    .create(TestInstance)
+    .then(value => value.startSever());
