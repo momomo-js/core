@@ -1,7 +1,8 @@
 import * as coIns from 'co';
 
 export {Injectable, Inject} from 'injection-js';
-export let co: () => Promise<Object | null | void> = coIns;
+export let co: (fun: Function) => Promise<Object | null | void | any> = coIns;
+
 
 
 /**
