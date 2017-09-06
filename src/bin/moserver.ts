@@ -60,7 +60,7 @@ export class MoServer extends Mo {
         // 装载router
         for (const c of this.componentList) {
             if (c.onInit instanceof Function) {
-                c.onInit();
+                await c.onInit();
             }
         }
 
@@ -81,7 +81,7 @@ export class MoServer extends Mo {
         // await this.moInstance.onStart();
         for (const c of this.componentList) {
             if (c.onStart instanceof Function) {
-                c.onStart();
+                await c.onStart();
             }
         }
 
@@ -100,7 +100,7 @@ export class MoServer extends Mo {
         // await this.moInstance.onStop();
         for (const c of this.componentList) {
             if (c.onStop instanceof Function) {
-                c.onStop();
+                await c.onStop();
             }
         }
         await this.routerManager.onStop();
@@ -144,7 +144,7 @@ export class MoServer extends Mo {
             this.pushModule(options.modules);
         }
 
-        this.handleModule(instance, 'instance');
+        this.handleModule(instance);
 
     }
 
@@ -159,17 +159,13 @@ export class MoServer extends Mo {
         }
     }
 
-    private handleModule(module: any, mode: 'instance' | 'module' = 'module') {
+    private handleModule(module: any) {
         const options: ModuleOptions = Reflect.getMetadata(MODULE, module);
 
         if (options.components instanceof Array) {
             for (const component of options.components) {
                 const cIns = this._injector.resolveAndInstantiate(<any>component);
-                if (mode === 'instance') {
-                    this.componentList.unshift(cIns);
-                } else if (mode === 'module') {
-                    this.componentList.push(cIns);
-                }
+                this.componentList.push(cIns);
             }
         }
 
