@@ -10,6 +10,7 @@ import {INSTANCE, MODULE, MoServerToken, SERVER, TARGET} from '../decorator/symb
 import {InstanceOptions} from '../define/instance-options.interface';
 import {ModuleOptions} from '../define/module-options.interface';
 import {ServerOptions} from '../define/server-options';
+import {error} from 'util';
 
 /**
  * 创建MoServer实例
@@ -32,8 +33,12 @@ export class MoServer extends Mo {
      */
     static async create(instance: any): Promise<MoServer> {
         const ins = new MoServer(instance);
-        await ins.onInit();
+        await ins.onInit().catch(MoServer.ErrorHandler);
         return ins;
+    }
+
+    static ErrorHandler(reason: any) {
+        throw new Error(reason);
     }
 
     /**
@@ -53,7 +58,6 @@ export class MoServer extends Mo {
         // 装载plugins
 
         // 装载router
-
         for (const c of this.componentList) {
             if (c.onInit instanceof Function) {
                 c.onInit();
@@ -120,7 +124,7 @@ export class MoServer extends Mo {
      */
     async startSever() {
         this.debug('starting MoBasicServer');
-        await this.onStart();
+        await this.onStart().catch(MoServer.ErrorHandler);
     }
 
 
@@ -140,7 +144,7 @@ export class MoServer extends Mo {
             this.pushModule(options.modules);
         }
 
-        this.handleModule(instance);
+        this.handleModule(instance, 'instance');
 
     }
 
@@ -155,13 +159,17 @@ export class MoServer extends Mo {
         }
     }
 
-    private handleModule(module: any) {
+    private handleModule(module: any, mode: 'instance' | 'module' = 'module') {
         const options: ModuleOptions = Reflect.getMetadata(MODULE, module);
 
         if (options.components instanceof Array) {
             for (const component of options.components) {
                 const cIns = this._injector.resolveAndInstantiate(<any>component);
-                this.componentList.push(cIns);
+                if (mode === 'instance') {
+                    this.componentList.unshift(cIns);
+                } else if (mode === 'module') {
+                    this.componentList.push(cIns);
+                }
             }
         }
 
