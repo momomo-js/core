@@ -12,7 +12,7 @@ import {ModuleOptions} from '../define/module-options.interface';
 import {ServerOptions} from '../define/server-options';
 
 /**
- * 创建MoCreate实例
+ * 创建MoServer实例
  */
 export class MoServer extends Mo {
     serverManager: ServerManager;
@@ -24,7 +24,13 @@ export class MoServer extends Mo {
     _injector: ReflectiveInjector;
     private serverCycleLife: MoApplicationCycleLife[] = [];
 
-    static async create(instance: any) {
+    /**
+     * 创建实例
+     * 单一Node进程中应只包含单一 Instance
+     * @param instance 应用实例
+     * @returns {Promise<MoServer>}
+     */
+    static async create(instance: any): Promise<MoServer> {
         const ins = new MoServer(instance);
         await ins.onInit();
         return ins;
@@ -32,7 +38,8 @@ export class MoServer extends Mo {
 
     /**
      *
-     * @param instance 网站实例
+     * @param instance 应用实例
+     * 单一Node进程中应只包含单一 Instance
      */
     protected constructor(instance: any) {
         super();
@@ -123,6 +130,8 @@ export class MoServer extends Mo {
         this.serverManager.port = options.instance.port;
         this.serverManager.host = options.instance.host;
 
+        const n = new instance();
+
         if (options.servers) {
             this.pushServer(options.servers);
         }
@@ -149,6 +158,13 @@ export class MoServer extends Mo {
     private handleModule(module: any) {
         const options: ModuleOptions = Reflect.getMetadata(MODULE, module);
 
+        if (options.components instanceof Array) {
+            for (const component of options.components) {
+                const cIns = this._injector.resolveAndInstantiate(<any>component);
+                this.componentList.push(cIns);
+            }
+        }
+
         if (options.plugins) {
             this.pushPluginPackage(options.plugins);
         }
@@ -157,12 +173,7 @@ export class MoServer extends Mo {
             this.pushRouter(options.routers);
         }
 
-        if (options.components instanceof Array) {
-            for (const component of options.components) {
-                const cIns = this._injector.resolveAndInstantiate(<any>component);
-                this.componentList.push(cIns);
-            }
-        }
+
     }
 
     private pushServer(servers: any[]) {
