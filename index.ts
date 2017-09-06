@@ -6,6 +6,7 @@ export * from './src/decorator/controller';
 export * from './src/decorator/instance';
 export * from './src/decorator/method';
 export * from './src/decorator/module';
+export * from './src/decorator/option';
 export * from './src/decorator/plugin';
 export * from './src/decorator/plugin-package';
 export * from './src/decorator/router';
