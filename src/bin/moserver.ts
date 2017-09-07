@@ -10,7 +10,6 @@ import {INSTANCE, MODULE, MoServerToken, SERVER, TARGET} from '../decorator/symb
 import {InstanceOptions} from '../define/instance-options.interface';
 import {ModuleOptions} from '../define/module-options.interface';
 import {ServerOptions} from '../define/server-options';
-import {error} from 'util';
 
 /**
  * 创建MoServer实例
@@ -37,8 +36,9 @@ export class MoServer extends Mo {
         return ins;
     }
 
-    static ErrorHandler(reason: any) {
-        throw new Error(reason);
+    static ErrorHandler(reason: Error) {
+        console.log(reason.stack);
+        throw reason;
     }
 
     /**
