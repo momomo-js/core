@@ -11,7 +11,7 @@ function haha(target: any, prop: string) {
 
 class Test {
     @haha
-    test(res: Baba, haha: string) {
+    test(res: Baba, haha: Function) {
     }
 }
 

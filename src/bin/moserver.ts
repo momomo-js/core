@@ -17,10 +17,12 @@ import {ServerOptions} from '../define/server-options';
 export class MoServer extends Mo {
     serverManager: ServerManager;
     routerManager: RouterManager;
+
     moduleList: Set<any> = new Set();
     componentList: Component[] = [];
     serverList: Map<any, MoBasicServer> = new Map();
     pluginPackageList: Map<any, any> = new Map();
+
     _injector: ReflectiveInjector;
     private serverCycleLife: MoApplicationCycleLife[] = [];
 
