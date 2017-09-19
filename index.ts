@@ -1,3 +1,4 @@
+export * from './src/bin/function-di';
 export * from './src/bin/moserver';
 export * from './src/bin/router-manager';
 export * from './src/bin/server-manager';
