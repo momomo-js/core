@@ -12,7 +12,7 @@ import {InstanceOptions} from '../define/instance-options.interface';
 export class InstanceManager extends Mo {
     private moInstance: any;
     private moModules: Set<any> = new Set();
-    private pluginPackages: Set<any> = new Set();
+    private pluginPackages: Map<any, any> = new Map();
     private servers: Map<any, any> = new Map();
 
     private lifeCycleManager: LifeCycleManager = new LifeCycleManager;
@@ -105,7 +105,7 @@ export class InstanceManager extends Mo {
             options.plugins.map(value => {
                 if (!this.pluginPackages.has(value)) {
                     const pPackage = this.injector.resolveAndInstantiate(value);
-                    this.pluginPackages.add(pPackage);
+                    this.pluginPackages.set(value, pPackage);
                 }
             });
         }
@@ -134,8 +134,8 @@ export class InstanceManager extends Mo {
                 throw new Error(`the module ${server.name} hasn't Server decorator`)
             }
 
-            const injector = this.injector.resolveAndCreateChild([server]);
-            const serverIns = injector.get(server);
+            const injector = this.injector.resolveAndCreateChild([options.main]);
+            const serverIns = injector.get(options.main);
             this.lifeCycleManager.add(serverIns, 0);
             this.servers.set(server, serverIns);
 
@@ -151,6 +151,10 @@ export class InstanceManager extends Mo {
     private handlePluginPackage() {
         this.pluginPackages.forEach((value, key) => {
             const target = Reflect.getMetadata(TARGET, key);
+            if (!target) {
+                throw new Error(`no target`);
+            }
+
             if (this.servers.has(target)) {
                 const server = this.servers.get(target);
                 if (server) {

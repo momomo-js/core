@@ -1,7 +1,7 @@
 import {TARGET} from './symbol';
 
-export function PluginPackage(target: any) {
-    return (t: any) => {
-        Reflect.defineMetadata(TARGET, target, t);
+export function PluginPackage(pluginTarget: any) {
+    return (target: any) => {
+        Reflect.defineMetadata(TARGET, pluginTarget, target);
     }
 }
