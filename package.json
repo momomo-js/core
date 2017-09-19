@@ -1,6 +1,6 @@
 {
   "name": "@mo/core",
-  "version": "0.2.1",
+  "version": "0.3.0-beta 1",
   "private": true,
   "description": "a new way to create server",
   "main": "index.js",
