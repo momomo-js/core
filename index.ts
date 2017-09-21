@@ -1,4 +1,3 @@
-export * from './src/bin/function-di';
 export * from './src/bin/moserver';
 export * from './src/bin/router-manager';
 export * from './src/bin/server-manager';
@@ -13,6 +12,7 @@ export * from './src/decorator/plugin-package';
 export * from './src/decorator/router';
 export * from './src/decorator/server';
 export * from './src/decorator/symbol';
+export * from './src/function-di/type';
 
 export * from './src/define/component.class';
 export * from './src/define/controller.interface';
@@ -29,6 +29,8 @@ export * from './src/define/plugin-package-options.interface';
 export * from './src/define/router.interface';
 export * from './src/define/router-options.interface';
 export * from './src/define/state.enum';
+
+export * from './src/function-di/function-di';
 
 export * from './src/import/index';
 

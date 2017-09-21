@@ -1,8 +1,7 @@
 import {PLUGINS} from '../decorator/plugin';
 import {Mo} from './mo.class';
-import {MoApplicationCycleLife} from './mo-cycle-life.interface';
 
-export abstract class MoBasicServer extends Mo implements MoApplicationCycleLife {
+export abstract class MoBasicServer extends Mo {
 
     protected static getPlugin(pack: any, type: symbol): any[] {
 
@@ -20,19 +19,6 @@ export abstract class MoBasicServer extends Mo implements MoApplicationCycleLife
 
 
     addPlugin(Package: any): void {
-
-    }
-
-    onStop() {
-        this.debug(`stopping ${this.instance}`)
-    }
-
-    onStart() {
-        this.debug(`starting ${this.instance}`)
-    }
-
-    onInit() {
-        this.debug(`initializing  ${this.instance}`)
     }
 
 }

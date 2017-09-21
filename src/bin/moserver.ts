@@ -1,15 +1,5 @@
 import 'reflect-metadata';
-import {ServerManager} from './server-manager';
-import {MoBasicServer} from '../define/mo-server.class';
-import {RouterManager} from './router-manager';
-import {Component} from '../define/component.class';
-import {ReflectiveInjector} from 'injection-js';
 import {Mo} from '../define/mo.class';
-import {MoApplicationCycleLife} from '../define/mo-cycle-life.interface';
-import {INSTANCE, MODULE, MoServerToken, SERVER, TARGET} from '../decorator/symbol';
-import {InstanceOptions} from '../define/instance-options.interface';
-import {ModuleOptions} from '../define/module-options.interface';
-import {ServerOptions} from '../define/server-options';
 import {InstanceManager} from './instance-manager';
 
 /**
@@ -39,9 +29,13 @@ export class MoServer extends Mo {
     }
 
     async onCreate(instance: any) {
-        this.instanceManager = InstanceManager.create(instance, this);
-        this.bindExitProcess();
-        await this.onInit().catch(MoServer.ErrorHandler);
+        try {
+            this.instanceManager = InstanceManager.create(instance, this);
+            this.bindExitProcess();
+            await this.onInit();
+        } catch (e) {
+            MoServer.ErrorHandler(e);
+        }
         return true;
     }
 
@@ -72,7 +66,7 @@ export class MoServer extends Mo {
      */
     async startSever() {
         this.debug('starting MoBasicServer');
-        await this.onStart().catch(MoServer.ErrorHandler);
+        await this.onStart();
     }
 
 

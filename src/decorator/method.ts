@@ -1,4 +1,4 @@
-import {CONTROLLER, METHOD, PARAMS, PATH} from './symbol';
+import {CONTROLLER, METHOD, PATH} from './symbol';
 
 export function Method(method: symbol, path?: string) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
@@ -13,8 +13,9 @@ export function Method(method: symbol, path?: string) {
         // let q: Array<any> = Reflect.getMetadata('design:paramtypes', target, propertyKey);
         // let s: String[] = q.map(o => o.name);
         // Reflect.defineMetadata(PARAMS, s, target, propertyKey);
-        if (!path)
+        if (!path) {
             path = '/' + propertyKey;
+        }
         Reflect.defineMetadata(PATH, path, target, propertyKey);
     };
 }

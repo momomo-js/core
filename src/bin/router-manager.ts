@@ -3,9 +3,9 @@ import {IController} from '../define/controller.interface';
 import {Provider, ReflectiveInjector} from 'injection-js';
 import {CONTROLLER_LIST, SERVICE_LIST} from '../decorator/symbol';
 import {Mo} from '../define/mo.class';
-import {MoApplicationCycleLife} from '../define/mo-cycle-life.interface';
+import {OnInit} from '../define/mo-cycle-life.interface';
 
-export class RouterManager extends Mo implements MoApplicationCycleLife {
+export class RouterManager extends Mo implements OnInit {
     private _routerList: Map<any, IRouter> = new Map();
     private _serviceList: Array<any> = [];
     private _injector: ReflectiveInjector;
@@ -62,12 +62,6 @@ export class RouterManager extends Mo implements MoApplicationCycleLife {
                 }
             }
         }
-    }
-
-    onStart() {
-    }
-
-    onStop() {
     }
 
     addRouter(routerList: any[]) {

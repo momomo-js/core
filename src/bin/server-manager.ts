@@ -1,9 +1,9 @@
 import * as http from 'http';
 import {HttpApp} from '../define/http-app.interface';
 import {Mo} from '../define/mo.class';
-import {MoApplicationCycleLife} from '../define/mo-cycle-life.interface';
+import {OnInit, OnStart, OnStop} from '../define/mo-cycle-life.interface';
 
-export class ServerManager extends Mo implements MoApplicationCycleLife {
+export class ServerManager extends Mo implements OnInit, OnStop, OnStart {
     server: http.Server;
     public port: number;
     public host: string;

@@ -1,5 +1,5 @@
 import {ServerOptions} from '../define/server-options';
-import {SERVER} from "./symbol";
+import {SERVER} from './symbol';
 
 export function Server(options: ServerOptions) {
     return (target: any) => {

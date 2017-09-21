@@ -11,7 +11,7 @@ export class MoOptionHandler {
         return MoOptionHandler.instance;
     }
 
-    private constructor() {
+    protected constructor() {
         this.options = new Map();
     }
 

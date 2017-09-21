@@ -4,11 +4,11 @@ import {MODELLIST, PATH} from './symbol';
 
 export function Controller(options?: ControllerOptions) {
     return (target) => {
-        let original = target;
+        const original = target;
 
         function construct(constructor, args) {
-            let c: any = function () {
-                let cIns = new constructor(...args) as IController;
+            const c: any = function () {
+                const cIns = new constructor(...args) as IController;
                 cIns.modelList = new Map<String, Object>();
                 return cIns;
             };
@@ -27,14 +27,14 @@ export function Controller(options?: ControllerOptions) {
                 }
 
                 if (options.models) {
-                    for (let model of options.models) {
+                    for (const model of options.models) {
                         cIns.modelList.set(model.name, model);
                     }
 
                     Reflect.defineMetadata(MODELLIST, options.models, cIns);
                 }
             } else {
-                let cInsName = cIns.constructor.name;
+                const cInsName = cIns.constructor.name;
                 path = cInsName.replace('Controller', '').toLowerCase();
             }
 
@@ -44,14 +44,14 @@ export function Controller(options?: ControllerOptions) {
         }
 
         // the new constructor behavior
-        let f: any = function (...args) {
+        const f: any = function (...args) {
             return construct(original, args);
         };
 
         // copy prototype so instanceof operator still works
         f.prototype = original.prototype;
 
-        let param = Reflect.getMetadata('design:paramtypes', original);
+        const param = Reflect.getMetadata('design:paramtypes', original);
 
         Reflect.defineMetadata('design:paramtypes', param, f);
         // return new constructor (will override original)
