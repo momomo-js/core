@@ -1,14 +1,14 @@
-export class MoOptionHandler {
-    private static instance: MoOptionHandler;
+export class MoonHandler {
+    private static instance: MoonHandler;
 
     options: Map<string | symbol, any>;
 
     static get() {
-        if (!MoOptionHandler.instance) {
-            MoOptionHandler.instance = new MoOptionHandler;
+        if (!MoonHandler.instance) {
+            MoonHandler.instance = new MoonHandler;
         }
 
-        return MoOptionHandler.instance;
+        return MoonHandler.instance;
     }
 
     protected constructor() {

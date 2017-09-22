@@ -3,7 +3,7 @@ import {ReflectiveInjector, Injectable, Injector} from 'injection-js';
 import {Router} from '../src/decorator/router';
 import {Controller} from '../src/decorator/controller';
 import construct = Reflect.construct;
-import {MoServer} from '../src/bin/moserver';
+import {Mo} from '../src/mo';
 import {IRouter} from '../src/define/router.interface';
 
 @Injectable()
@@ -62,7 +62,7 @@ class RootRouter {
     }
 }
 
-// let service = new MoServer();
+// let service = new Mo();
 
 // service.routerManager.addRouter([RootRouter]);
 // service.routerManager.addService([TestService2,Http]);

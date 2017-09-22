@@ -1,4 +1,4 @@
-import {ServerOptions} from '../define/server-options';
+import {ServerOptions} from '../define/server-options.interface';
 import {SERVER} from './symbol';
 
 export function Server(options: ServerOptions) {

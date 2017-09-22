@@ -1,15 +1,15 @@
 import {ReflectiveInjector} from 'injection-js';
-import {MoServer} from './moserver';
+import {Mo} from '../mo';
 import {RouterManager} from './router-manager';
 import {ServerManager} from './server-manager';
 import {INSTANCE, MODULE, MoServerToken, SERVER, TARGET} from '../decorator/symbol';
-import {Mo} from '../define/mo.class';
+import {MoBasic} from '../define/mo-basic.class';
 import {LifeCycleManager} from './life-cycle-manager';
 import {ModuleOptions} from '../define/module-options.interface';
-import {ServerOptions} from '../define/server-options';
+import {ServerOptions} from '../define/server-options.interface';
 import {InstanceOptions} from '../define/instance-options.interface';
 
-export class InstanceManager extends Mo {
+export class InstanceManager extends MoBasic {
     private moInstance: any;
     private moModules: Set<any> = new Set();
     private pluginPackages: Map<any, any> = new Map();
@@ -18,7 +18,7 @@ export class InstanceManager extends Mo {
     private lifeCycleManager: LifeCycleManager = new LifeCycleManager;
     private injector: ReflectiveInjector;
 
-    static create(instance: any, moServer: MoServer) {
+    static create(instance: any, moServer: Mo) {
         const m = new InstanceManager();
         if (m && m.onCreate(instance, moServer)) {
             return m;
@@ -27,7 +27,7 @@ export class InstanceManager extends Mo {
         }
     }
 
-    private onCreate(instance: any, moServer: MoServer) {
+    private onCreate(instance: any, moServer: Mo) {
         this.moInstance = instance;
         this.initInjector(moServer);
         this.initInstance();

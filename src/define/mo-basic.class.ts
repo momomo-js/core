@@ -3,9 +3,9 @@ import * as debug from 'debug';
 /**
  * Mo 基础类，框架中所有类均基于Mo。
  */
-export abstract class Mo {
+export abstract class MoBasic {
     public instance: string;
-    private _debug: debug.IDebugger = debug('Mo');
+    private _debug: debug.IDebugger = debug('MoBasic');
 
     constructor() {
         this.instance = this.constructor.name;

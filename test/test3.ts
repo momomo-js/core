@@ -1,17 +1,17 @@
-import {Input, Option} from '../src/decorator/option';
+import {MoonOption, Moon} from '../src/util/moon/decorator';
 
 class HaHa {
-    @Option('haha')
+    @Moon('haha')
     options = 'new way';
-    @Option('haha1')
+    @Moon('haha1')
     option1s = 'new way1';
 }
 
 class HeHe {
-    @Input('haha')
+    @MoonOption('haha')
     options = 'bad way';
 
-    @Input('haha1')
+    @MoonOption('haha1')
     option1s = 'bad way1';
 }
 

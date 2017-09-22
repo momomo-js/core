@@ -1,7 +1,7 @@
-import {Mo} from '../define/mo.class';
-import {MoServer} from './moserver';
+import {MoBasic} from '../define/mo-basic.class';
+import {Mo} from '../mo';
 
-export class LifeCycleManager extends Mo {
+export class LifeCycleManager extends MoBasic {
     runtimeList: any[][] = [[], [], [], [], []];
 
     add(module: any, level: 0 | 1 | 2 | 3 | 4 = 4): void {
@@ -20,7 +20,7 @@ export class LifeCycleManager extends Mo {
                 }
             }
         } catch (e) {
-            MoServer.ErrorHandler(e);
+            Mo.ErrorHandler(e);
         }
     }
 }

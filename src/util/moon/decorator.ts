@@ -1,6 +1,6 @@
-import {MoOptionHandler} from '../bin/mo-option-handler';
+import {MoonHandler} from './moon-handler';
 
-export function Option(mark: string | symbol) {
+export function Moon(mark: string | symbol) {
     let value;
     return (target: Object, propertyKey: string | symbol) => {
         Object.defineProperty(target, propertyKey, {
@@ -9,14 +9,14 @@ export function Option(mark: string | symbol) {
                 return value;
             },
             set: v => {
-                MoOptionHandler.get().setOption(mark, v);
+                MoonHandler.get().setOption(mark, v);
                 value = v;
             }
         });
     }
 }
 
-export function Input(mark: string | symbol) {
+export function MoonOption(mark: string | symbol) {
     return (target: Object, propertyKey: string | symbol) => {
         let value;
         Object.defineProperty(target, propertyKey, {
@@ -24,7 +24,7 @@ export function Input(mark: string | symbol) {
                 return value;
             },
             set: v => {
-                const option = MoOptionHandler.get().getOption(mark);
+                const option = MoonHandler.get().getOption(mark);
                 if (option) {
                     value = option;
                 } else {

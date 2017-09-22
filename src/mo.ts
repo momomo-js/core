@@ -1,21 +1,21 @@
 import 'reflect-metadata';
-import {Mo} from '../define/mo.class';
-import {InstanceManager} from './instance-manager';
+import {MoBasic} from './define/mo-basic.class';
+import {InstanceManager} from './core/instance-manager';
 
 /**
  * 创建MoServer实例
  */
-export class MoServer extends Mo {
+export class Mo extends MoBasic {
     instanceManager: InstanceManager;
 
     /**
      * 创建实例
      * 单一Node进程中应只包含单一 Instance
      * @param instance 应用实例
-     * @returns {Promise<MoServer>}
+     * @returns {Promise<Mo>}
      */
-    static async create(instance: any): Promise<MoServer> {
-        const ins = new MoServer();
+    static async create(instance: any): Promise<Mo> {
+        const ins = new Mo();
         if (ins && await ins.onCreate(instance)) {
             return ins;
         } else {
@@ -34,7 +34,7 @@ export class MoServer extends Mo {
             this.bindExitProcess();
             await this.onInit();
         } catch (e) {
-            MoServer.ErrorHandler(e);
+            Mo.ErrorHandler(e);
         }
         return true;
     }

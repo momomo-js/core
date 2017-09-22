@@ -1,21 +1,18 @@
 import {CONTROLLER, METHOD, PATH} from './symbol';
+import {MetadataArray} from '../util/metadata-array';
 
 export function Method(method: symbol, path?: string) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-        let ControllerMethod = Reflect.getMetadata(CONTROLLER, target);
-        if (!ControllerMethod) {
-            ControllerMethod = [];
-            Reflect.defineMetadata(CONTROLLER, ControllerMethod, target);
-        }
+        const ControllerMethod = MetadataArray(CONTROLLER, target);
+
         ControllerMethod.push(target[propertyKey]);
 
         Reflect.defineMetadata(METHOD, method, target, propertyKey);
-        // let q: Array<any> = Reflect.getMetadata('design:paramtypes', target, propertyKey);
-        // let s: String[] = q.map(o => o.name);
-        // Reflect.defineMetadata(PARAMS, s, target, propertyKey);
+
         if (!path) {
             path = '/' + propertyKey;
         }
+
         Reflect.defineMetadata(PATH, path, target, propertyKey);
     };
 }

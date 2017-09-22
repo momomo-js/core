@@ -1,63 +1,23 @@
-import {IController} from '../define/controller.interface';
 import {ControllerOptions} from '../define/controller-options.interface';
-import {MODELLIST, PATH} from './symbol';
+import {MODEL_LIST, PATH} from './symbol';
 
 export function Controller(options?: ControllerOptions) {
-    return (target) => {
-        const original = target;
+    return (target: any) => {
 
-        function construct(constructor, args) {
-            const c: any = function () {
-                const cIns = new constructor(...args) as IController;
-                cIns.modelList = new Map<String, Object>();
-                return cIns;
-            };
-
-            c.prototype = constructor.prototype;
-
-            const cIns = new c();
-            let path: String;
-
-            if (options) {
-                if (!options.path) {
-                    const cInsName = cIns.constructor.name;
-                    path = '/' + cInsName.replace('Controller', '').toLowerCase();
-                } else {
-                    path = options.path;
-                }
-
-                if (options.models) {
-                    for (const model of options.models) {
-                        cIns.modelList.set(model.name, model);
-                    }
-
-                    Reflect.defineMetadata(MODELLIST, options.models, cIns);
-                }
-            } else {
-                const cInsName = cIns.constructor.name;
-                path = cInsName.replace('Controller', '').toLowerCase();
-            }
-
-            Reflect.defineMetadata(PATH, path, cIns);
-            return cIns;
-
+        if (options && options.models) {
+            const s: Set<any> = new Set(options.models);
+            Reflect.defineMetadata(MODEL_LIST, s, target);
         }
 
-        // the new constructor behavior
-        const f: any = function (...args) {
-            return construct(original, args);
-        };
-
-        // copy prototype so instanceof operator still works
-        f.prototype = original.prototype;
-
-        const param = Reflect.getMetadata('design:paramtypes', original);
-
-        Reflect.defineMetadata('design:paramtypes', param, f);
-        // return new constructor (will override original)
-        return f;
+        let path: String;
+        if (options && options.path) {
+            path = options.path;
+        } else {
+            const cInsName = target.name;
+            path = cInsName.replace('Controller', '').toLowerCase();
+        }
+        Reflect.defineMetadata(PATH, path, target);
     }
-
 }
 
 /**

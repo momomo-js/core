@@ -1,17 +1,16 @@
 import {IRouter} from '../define/router.interface';
-import {IController} from '../define/controller.interface';
 import {Provider, ReflectiveInjector} from 'injection-js';
 import {CONTROLLER_LIST, SERVICE_LIST} from '../decorator/symbol';
-import {Mo} from '../define/mo.class';
+import {MoBasic} from '../define/mo-basic.class';
 import {OnInit} from '../define/mo-cycle-life.interface';
 
-export class RouterManager extends Mo implements OnInit {
+export class RouterManager extends MoBasic implements OnInit {
     private _routerList: Map<any, IRouter> = new Map();
     private _serviceList: Array<any> = [];
     private _injector: ReflectiveInjector;
 
-    get controllerList(): IController[] {
-        const controller_List: IController[] = [];
+    get controllerList(): any[] {
+        const controller_List: any[] = [];
 
         for (const r of this._routerList) {
             // todo Controller Should Change to the metadata-type
@@ -34,29 +33,21 @@ export class RouterManager extends Mo implements OnInit {
             const service_list: any[] = Reflect.getMetadata(SERVICE_LIST, r.constructor);
             const provider: any[] = [];
 
-            if (service_list) {
-                provider.push(...service_list);
+            if (controller_list) {
+                provider.push.apply(provider, controller_list);
             }
 
-            if (controller_list) {
-                provider.push(...controller_list);
+            if (service_list) {
+                provider.push.apply(provider, service_list);
             }
 
             r._injector = ReflectiveInjector.resolveAndCreate(provider, this._injector);
 
-            r.controllers = new Map<any, IController>();
-            r.services = new Map<any, any>();
-
-            if (service_list) {
-                for (const s of service_list) {
-                    const sIns = r._injector.get(s);
-                    r.services.set(s, sIns);
-                }
-            }
+            r.controllers = new Map<any, any>();
 
             if (controller_list) {
                 for (const c of controller_list) {
-                    const cIns = <IController>r._injector.get(c);
+                    const cIns = <any>r._injector.get(c);
                     cIns.router = r;
                     r.controllers.set(c, cIns);
                 }
@@ -75,12 +66,8 @@ export class RouterManager extends Mo implements OnInit {
         }
     }
 
-    delRouter(router: any): boolean {
-        return this._routerList.delete(router);
-    }
-
-    addService(service: Provider[]) {
-        this._serviceList.push(...service);
+    addProvider(providers: Provider[]) {
+        this._serviceList.push.apply(this._serviceList, providers);
     }
 
 }

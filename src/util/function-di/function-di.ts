@@ -1,5 +1,5 @@
-import {Mo} from '../define/mo.class';
-import {PARAMS} from '../decorator/symbol';
+import {MoBasic} from '../../define/mo-basic.class';
+import {PARAMS} from '../../decorator/symbol';
 
 export interface TypeProvider {
     type: string | any;
@@ -12,7 +12,7 @@ export interface Parameter {
     spec: boolean;
 }
 
-export class FunctionDi extends Mo {
+export class FunctionDi extends MoBasic {
 
     private params: Map<any, any> = new Map();
     THROW_Error: Boolean = true;
