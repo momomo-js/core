@@ -31,6 +31,7 @@ export * from './src/util/moon/moon-handler';
 
 export * from './src/util/get-mo-plugin';
 export * from './src/util/metadata-array';
+export * from './src/util/get-symbol-description'
 
 export * from './src/import/index';
 

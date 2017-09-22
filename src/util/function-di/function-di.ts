@@ -76,6 +76,9 @@ export class FunctionDi extends MoBasic {
         }
     }
 
+    get(type: any): any {
+        return this.params.get(type);
+    }
 
     resolve(ins: any, cFun: Function): Object[] {
         const ret: any[] = [];
